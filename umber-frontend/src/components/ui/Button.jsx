@@ -76,7 +76,7 @@ function Button({
       case "outline":
         return {
           initial: { 
-            backgroundColor: "transparent", 
+            backgroundColor: "rgba(77, 124, 15, 0)", // transparent moss-700
             color: "rgb(77, 124, 15)", // moss-700
             borderColor: "rgb(77, 124, 15)" 
           },
@@ -93,7 +93,7 @@ function Button({
       case "ghost":
         return {
           initial: { 
-            backgroundColor: "transparent", 
+            backgroundColor: "rgba(87, 83, 78, 0)", // transparent umber-700
             color: "rgb(87, 83, 78)" // umber-700
           },
           whileHover: { 

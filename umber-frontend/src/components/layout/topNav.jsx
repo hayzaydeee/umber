@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
+import UmberText from "../ui/UmberText";
 
 function TopNav() {
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState("home");
+
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "features", label: "Features" },
+    { id: "pricing", label: "Pricing" },
+  ];
+
+  const scrollToSection = (sectionId) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-umber-100">
@@ -12,8 +29,30 @@ function TopNav() {
           {/* Logo */}
           <div className="flex items-center">
             <h1 className="text-2xl font-display font-semibold text-umber-800">
-              <span className="italic">u</span>mber
+              <span className="italic font-family-display">u</span>mber
             </h1>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`
+                  px-3 py-2 text-md font-medium transition-all duration-200 rounded-md
+                  ${activeSection === item.id 
+                    ? 'text-moss-700 bg-moss-50' 
+                    : 'text-umber-600 hover:text-moss-700 hover:bg-moss-50/50'
+                  }
+                `}
+                dangerouslySetInnerHTML={{
+                  __html: item.label === "About" ? "abo<span class='italic font-family-display'>u</span>t" :
+                          item.label === "Features" ? "feat<span class='italic font-family-display'>u</span>res" :
+                          item.label.toLowerCase()
+                }}
+              />
+            ))}
           </div>
 
           {/* Auth Buttons */}
@@ -32,7 +71,7 @@ function TopNav() {
               onClick={() => navigate('/signup')}
               className="px-4 py-2"
             >
-              sign up
+              <UmberText>sign up</UmberText>
             </Button>
           </div>
         </div>

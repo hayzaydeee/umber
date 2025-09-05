@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react"
 import Button from "../ui/Button";
+import UmberText from "../ui/UmberText";
 
 function HeroSection() {
   const navigate = useNavigate();
@@ -186,7 +187,7 @@ function HeroSection() {
               className="text-lg md:text-xl text-umber-600 max-w-xl mx-auto leading-relaxed mb-2"
               variants={restOfPageVariants}
             >
-              start organizing your wants the beautiful way. create an <span className="font-semibold">umber</span> within seconds. 
+              <UmberText>start organizing your wants the beautiful way. create an umber within seconds.</UmberText>
             </motion.p>
 
             {/* CTA Buttons */}
@@ -200,7 +201,7 @@ function HeroSection() {
                 onClick={() => navigate('/signup')}
                 className="px-6 py-3"
               >
-                begin your journey
+                <UmberText>begin your journey</UmberText>
               </Button>
               <Button 
                 variant="outline" 
@@ -208,7 +209,7 @@ function HeroSection() {
                 onClick={() => navigate('/login')}
                 className="px-6 py-3"
               >
-                what's umber?
+                <UmberText>what's umber?</UmberText>
               </Button>
             </motion.div>
 
@@ -216,7 +217,7 @@ function HeroSection() {
               className="text-umber-500 text-base "
               variants={restOfPageVariants}
             >
-              no credit card. no spam. just clarity.
+              <UmberText>no credit card. no spam. just clarity.</UmberText>
             </motion.p>
           </motion.div>
         </div>
