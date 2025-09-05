@@ -1,312 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
-/* Umber Design System CSS Variables */
-:root {
-  /* Primary Brand Colors */
-  --umber-primary: #535147;      /* Umber - deep earth brown */
-  --moss-primary: #5B6F57;       /* Moss - contemplative green */
-  --ochre-primary: #CDA47D;      /* Warm Ochre - golden warmth */
-  --ivory-primary: #FDFF88;      /* Ivory - soft highlight */
+/* Umber Design System Theme */
+@theme {
+  --color-umber-50: #F7F6F4;
+  --color-umber-100: #EDEAE5;
+  --color-umber-200: #DDD7CC;
+  --color-umber-300: #C8BCA8;
+  --color-umber-400: #B09E85;
+  --color-umber-500: #998772;
+  --color-umber-600: #535147;
+  --color-umber-700: #3F3E37;
+  --color-umber-800: #2A2A24;
+  --color-umber-900: #1A1A16;
 
-  /* Extended Palette */
-  --umber-50: #F7F6F4;
-  --umber-100: #EDEAE5;
-  --umber-200: #DDD7CC;
-  --umber-300: #C8BCA8;
-  --umber-400: #B09E85;
-  --umber-500: #998772;
-  --umber-600: #535147;          /* Primary Umber */
-  --umber-700: #3F3E37;
-  --umber-800: #2A2A24;
-  --umber-900: #1A1A16;
+  --color-moss-50: #F2F4F2;
+  --color-moss-100: #E3E7E2;
+  --color-moss-200: #C9D2C7;
+  --color-moss-300: #A8B8A4;
+  --color-moss-400: #819681;
+  --color-moss-500: #6B7D67;
+  --color-moss-600: #5B6F57;
+  --color-moss-700: #485449;
+  --color-moss-800: #353A34;
+  --color-moss-900: #242622;
 
-  --moss-50: #F2F4F2;
-  --moss-100: #E3E7E2;
-  --moss-200: #C9D2C7;
-  --moss-300: #A8B8A4;
-  --moss-400: #819681;
-  --moss-500: #6B7D67;
-  --moss-600: #5B6F57;          /* Primary Moss */
-  --moss-700: #485449;
-  --moss-800: #353A34;
-  --moss-900: #242622;
+  --color-ochre-50: #FBF8F3;
+  --color-ochre-100: #F5EFE4;
+  --color-ochre-200: #EDDCC5;
+  --color-ochre-300: #E2C39F;
+  --color-ochre-400: #CDA47D;
+  --color-ochre-500: #B8915F;
+  --color-ochre-600: #A07A47;
+  --color-ochre-700: #7A5D36;
+  --color-ochre-800: #574028;
+  --color-ochre-900: #3A2A1A;
 
-  --ochre-50: #FBF8F3;
-  --ochre-100: #F5EFE4;
-  --ochre-200: #EDDCC5;
-  --ochre-300: #E2C39F;
-  --ochre-400: #CDA47D;          /* Primary Ochre */
-  --ochre-500: #B8915F;
-  --ochre-600: #A07A47;
-  --ochre-700: #7A5D36;
-  --ochre-800: #574028;
-  --ochre-900: #3A2A1A;
-
-  /* Semantic Colors */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --info: #3B82F6;
-
-  /* Priority Colors */
-  --priority-high: #EF4444;
-  --priority-medium: #F59E0B;
-  --priority-low: #10B981;
-
-  /* Light Theme Variables */
-  --bg-primary: #FDFDFC;
-  --bg-secondary: #F7F6F4;
-  --bg-tertiary: #EDEAE5;
-  
-  --text-primary: #1A1A16;
-  --text-secondary: #535147;
-  --text-tertiary: #998772;
-  --text-inverse: #FDFDFC;
-  
-  --border-primary: #DDD7CC;
-  --border-secondary: #EDEAE5;
-  --border-focus: #5B6F57;
-  
-  --interactive-primary: #5B6F57;
-  --interactive-primary-hover: #485449;
-  --interactive-secondary: #CDA47D;
-  --interactive-secondary-hover: #B8915F;
-  
-  --surface-elevated: #FFFFFF;
-  --surface-sunken: #F3F2F0;
-
-  /* Font Families */
-  --font-display: "DM Serif Display", "DM Serif Text", "Times New Roman", serif;
-  --font-body: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Fira Code", "Monaco", "Consolas", monospace;
-
-  /* Font Scales */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-
-  /* Base styles */
-  font-family: var(--font-body);
-  line-height: 1.6;
-  font-weight: 400;
-  color: var(--text-secondary);
-  background-color: var(--bg-primary);
-  
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-family-display: 'DM Serif Display', 'DM Serif Text', 'Times New Roman', serif;
+  --font-family-body: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-serif: 'DM Serif Display', 'DM Serif Text', 'Times New Roman', serif;
+  --font-family-mono: 'Fira Code', Monaco, Consolas, monospace;
 }
 
-/* Dark theme support */
-[data-theme="dark"] {
-  --bg-primary: #1A1A16;
-  --bg-secondary: #242622;
-  --bg-tertiary: #2A2A24;
-  
-  --text-primary: #F7F6F4;
-  --text-secondary: #DDD7CC;
-  --text-tertiary: #B09E85;
-  --text-inverse: #1A1A16;
-  
-  --border-primary: #3F3E37;
-  --border-secondary: #2A2A24;
-  --border-focus: #819681;
-  
-  --interactive-primary: #6B7D67;
-  --interactive-primary-hover: #819681;
-  --interactive-secondary: #E2C39F;
-  --interactive-secondary-hover: #EDDCC5;
-  
-  --surface-elevated: #2A2A24;
-  --surface-sunken: #1A1A16;
-}
-
-/* Base element styles */
+/* Global base styles */
 body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  color: var(--text-secondary);
-  background-color: var(--bg-primary);
+  font-family: var(--font-family-body);
+  line-height: 1.6;
+  color: var(--color-umber-900);
+  background-color: var(--color-umber-100);
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  color: var(--text-primary);
-  font-weight: 400;
-}
-
-h1 {
-  font-size: var(--text-4xl);
+  font-family: var(--font-family-display);
   line-height: 1.2;
-}
-
-h2 {
-  font-size: var(--text-3xl);
-  line-height: 1.3;
-}
-
-h3 {
-  font-family: var(--font-body);
-  font-size: var(--text-2xl);
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-/* Links */
-a {
-  color: var(--interactive-primary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--interactive-primary-hover);
-}
-
-/* Focus states */
-*:focus {
-  outline: none;
-}
-
-.focusable:focus {
-  box-shadow: 0 0 0 3px rgba(91, 111, 87, 0.3);
-  border-radius: 4px;
-}
-
-/* App-specific styles from App.css */
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-  background-color: var(--surface-elevated);
-  border: 1px solid var(--border-secondary);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  border-color: var(--border-primary);
-  box-shadow: 0 4px 12px rgba(83, 81, 71, 0.1);
-  transform: translateY(-2px);
-}
-
-.read-the-docs {
-  color: var(--text-tertiary);
-}
-
-/* Button styles aligned with Umber design system */
-button {
-  background-color: var(--interactive-primary);
-  color: var(--text-inverse);
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-button:hover {
-  background-color: var(--interactive-primary-hover);
-  transform: translateY(-1px);
-}
-
-button:focus,
-button:focus-visible {
-  box-shadow: 0 0 0 3px rgba(91, 111, 87, 0.3);
-}
-
-/* Secondary button variant */
-.btn-secondary {
-  background-color: transparent;
-  color: var(--interactive-primary);
-  border: 2px solid var(--interactive-primary);
-  padding: 10px 22px;
-}
-
-.btn-secondary:hover {
-  background-color: var(--interactive-primary);
-  color: var(--text-inverse);
-  transform: translateY(-1px);
-}
-
-/* Utility classes for Umber design system */
-.heading-display {
-  font-family: var(--font-display);
-  font-size: var(--text-5xl);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-
-.body-large {
-  font-family: var(--font-body);
-  font-size: var(--text-lg);
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-.body-base {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-.body-small {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--text-tertiary);
 }

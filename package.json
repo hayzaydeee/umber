@@ -12,10 +12,21 @@
     "deploy:frontend": "cd umber-frontend && npm run build && vercel --prod",
     "deploy:backend": "cd umber-backend && railway up"
   },
-  "keywords": ["umber", "wishlist", "mindful", "commerce", "monorepo"],
+  "keywords": [
+    "umber",
+    "wishlist",
+    "mindful",
+    "commerce",
+    "monorepo"
+  ],
   "author": "Umber Team",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^7.6.0"
+  },
+  "dependencies": {
+    "@radix-ui/themes": "^3.2.1",
+    "motion": "^12.23.12",
+    "react-router-dom": "^7.8.2"
   }
 }
