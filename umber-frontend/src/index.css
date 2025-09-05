@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 /* Umber Design System CSS Variables */
@@ -76,8 +77,8 @@
   --surface-sunken: #F3F2F0;
 
   /* Font Families */
-  --font-display: "Playfair Display", "Times New Roman", serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "DM Serif Display", "DM Serif Text", "Times New Roman", serif;
+  --font-body: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Fira Code", "Monaco", "Consolas", monospace;
 
   /* Font Scales */
