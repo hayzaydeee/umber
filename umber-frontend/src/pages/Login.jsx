@@ -323,12 +323,12 @@ function Login() {
           <div className="mt-6 text-center">
             <p className="text-umber-600">
               <UmberText>
-                Don't have an account?{' '}
+                don't have an account?{' '}
                 <Link
                   to="/signup"
                   className="text-moss-600 hover:text-moss-700 font-medium transition-colors"
                 >
-                  Sign up
+                  sign up
                 </Link>
               </UmberText>
             </p>
@@ -346,7 +346,7 @@ function Login() {
             to="/"
             className="text-umber-600 hover:text-umber-700 transition-colors text-sm"
           >
-            <UmberText>← Back to home</UmberText>
+            <UmberText>← back to home</UmberText>
           </Link>
         </motion.div>
       </motion.div>
