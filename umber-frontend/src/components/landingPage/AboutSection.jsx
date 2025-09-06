@@ -71,7 +71,7 @@ function AboutSection() {
             <div className="space-y-6 text-umber-700">
               <p className="text-lg leading-relaxed">
                   in a world of endless options and impulse purchases, umber
-                  provides a peaceful space to curate your desires. Our platform
+                  provides a peaceful space to curate your desires. our platform
                   encourages reflection before action, helping you understand
                   what truly matters.
               </p>

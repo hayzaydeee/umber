@@ -24,6 +24,7 @@ function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
+    otp: "",
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,6 +32,8 @@ function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
 
   const validateStep1 = () => {
     const newErrors = {};
@@ -92,6 +95,19 @@ function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const validateStep3 = () => {
+    const newErrors = {};
+
+    if (!formData.otp.trim()) {
+      newErrors.otp = 'OTP is required';
+    } else if (!/^\d{6}$/.test(formData.otp.trim())) {
+      newErrors.otp = 'OTP must be 6 digits';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -118,29 +134,102 @@ function Signup() {
   };
 
   const handlePreviousStep = () => {
-    setCurrentStep(1);
-    setErrors({}); // Clear any errors from step 2
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      setErrors({}); // Clear any errors when going back
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleStep2Submit = async (e) => {
     e.preventDefault();
-
+    
     if (!validateStep2()) return;
 
     setIsSubmitting(true);
 
     try {
-      // Simulate API call - replace with actual user registration
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Simulate API call to send OTP
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setOtpSent(true);
+      setCurrentStep(3);
+      
+      // Start resend timer
+      setResendTimer(60);
+      const timer = setInterval(() => {
+        setResendTimer(prev => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Send OTP error:', error);
+      setErrors({ submit: 'Failed to send verification code. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-      // For now, just navigate to dashboard
-      // In real implementation, you'd handle user registration and authentication
-      navigate("/dashboard");
+  const handleResendOTP = async () => {
+    if (resendTimer > 0) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // Simulate API call to resend OTP
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Start resend timer again
+      setResendTimer(60);
+      const timer = setInterval(() => {
+        setResendTimer(prev => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      // Clear any existing OTP error
+      setErrors(prev => ({ ...prev, otp: '' }));
+      
+    } catch (error) {
+      console.error('Resend OTP error:', error);
+      setErrors({ submit: 'Failed to resend verification code. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateStep3()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // Simulate OTP verification (in real implementation, check against backend)
+      if (formData.otp === '123456') {
+        // Simulate API call for user registration
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        // Show success and navigate to dashboard
+        navigate("/dashboard");
+      } else {
+        setErrors({ otp: 'Invalid verification code. Please try again.' });
+        setIsSubmitting(false);
+        return;
+      }
     } catch (error) {
       console.error("Signup error:", error);
       setErrors({
-        submit:
-          "An account with this email already exists. Please try signing in instead.",
+        submit: "Failed to create account. Please try again."
       });
     } finally {
       setIsSubmitting(false);
@@ -154,9 +243,19 @@ function Signup() {
       // Simulate Google OAuth flow - replace with actual Google Sign-In implementation
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // For now, just navigate to dashboard
-      // In real implementation, you'd handle Google OAuth registration here
-      navigate("/dashboard");
+      // Simulate OAuth data from Google
+      const oauthData = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@gmail.com',
+        profilePicture: null // In real implementation, this would come from Google
+      };
+
+      // Redirect to OAuth completion with pre-filled data
+      navigate('/oauth-completion', { 
+        state: oauthData 
+      });
+      
     } catch (error) {
       console.error("Google signup error:", error);
       setErrors({ submit: "Google sign-up failed. Please try again." });
@@ -198,7 +297,7 @@ function Signup() {
             </h1>
 
             <p className="text-xl font-family-body text-umber-700 mb-2">
-              <UmberText>Join the community</UmberText>
+              <UmberText>join the community</UmberText>
             </p>
           </motion.div>
         </div>
@@ -225,7 +324,7 @@ function Signup() {
                 currentStep >= 1 ? "text-moss-700" : "text-umber-500"
               }`}
             >
-              <UmberText>Basic Info</UmberText>
+              <UmberText>basic info</UmberText>
             </span>
           </div>
           <div
@@ -248,7 +347,30 @@ function Signup() {
                 currentStep >= 2 ? "text-moss-700" : "text-umber-500"
               }`}
             >
-              <UmberText>Security</UmberText>
+              <UmberText>security</UmberText>
+            </span>
+          </div>
+          <div
+            className={`w-8 h-1 rounded transition-colors ${
+              currentStep >= 3 ? "bg-moss-600" : "bg-umber-200"
+            }`}
+          ></div>
+          <div className="flex items-center">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors ${
+                currentStep >= 3
+                  ? "bg-moss-600 text-white"
+                  : "bg-umber-200 text-umber-600"
+              }`}
+            >
+              3
+            </div>
+            <span
+              className={`ml-2 text-sm font-medium transition-colors ${
+                currentStep >= 3 ? "text-moss-700" : "text-umber-500"
+              }`}
+            >
+              <UmberText>verify email</UmberText>
             </span>
           </div>
         </motion.div>
@@ -411,13 +533,16 @@ function Signup() {
                 </Button>
               </div>
             </form>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+          ) : currentStep === 2 ? (
+            <form onSubmit={handleStep2Submit} className="space-y-6">
               {/* Step 2 Header */}
               <div className="text-center mb-6">
                 <h3 className="text-lg font-semibold text-umber-800 mb-2">
                   <UmberText>welcome, {formData.firstName}!</UmberText>
                 </h3>
+                <p className="text-sm text-umber-600">
+                  <UmberText>Just a few more details to secure your account.</UmberText>
+                </p>
               </div>
 
               {/* Email Field */}
@@ -645,6 +770,103 @@ function Signup() {
                   className="px-6"
                 >
                   <ArrowLeftIcon className="font-bold" />
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contemplative"
+                  size="md"
+                  disabled={isSubmitting}
+                  className="px-8"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      <UmberText>sending code...</UmberText>
+                    </>
+                  ) : (
+                    <UmberText>send verification code</UmberText>
+                  )}
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Step 3: Email Verification */}
+              {/* Step 3 Header */}
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-semibold text-umber-800 mb-2">
+                  <UmberText>verify your email</UmberText>
+                </h3>
+                <p className="text-sm text-umber-600">
+                  <UmberText>
+                    We've sent a 6-digit code to {formData.email}. Enter it below to complete your signup.
+                  </UmberText>
+                </p>
+              </div>
+
+              {/* OTP Field */}
+              <div>
+                <label htmlFor="otp" className="block text-sm font-medium text-umber-700 mb-2">
+                  <UmberText>verification code</UmberText>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="otp"
+                    name="otp"
+                    value={formData.otp}
+                    onChange={handleChange}
+                    maxLength={6}
+                    className={`
+                      w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200 text-center text-xl font-mono tracking-widest
+                      ${errors.otp 
+                        ? 'border-red-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500' 
+                        : 'border-umber-300 focus:ring-2 focus:ring-moss-500/20 focus:border-moss-500'
+                      }
+                    `}
+                    placeholder="000000"
+                  />
+                </div>
+                {errors.otp && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-2 text-sm text-red-600"
+                  >
+                    <UmberText>{errors.otp}</UmberText>
+                  </motion.p>
+                )}
+                
+                {/* Resend OTP */}
+                <div className="mt-4 text-center">
+                  {resendTimer > 0 ? (
+                    <p className="text-sm text-umber-600">
+                      <UmberText>resend code in {resendTimer}s</UmberText>
+                    </p>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResendOTP}
+                      disabled={isSubmitting}
+                      className="text-sm text-moss-600 hover:text-moss-700 transition-colors"
+                    >
+                      <UmberText>didn't receive the code? resend</UmberText>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex justify-center gap-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="md"
+                  onClick={handlePreviousStep}
+                  className="px-6"
+                >
+                  <ArrowLeftIcon className="w-4 h-4 mr-2" />
+                  <UmberText>back</UmberText>
                 </Button>
                 <Button
                   type="submit"

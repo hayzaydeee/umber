@@ -45,7 +45,7 @@ function Modal({
     md: 'max-w-lg',
     lg: 'max-w-2xl',
     xl: 'max-w-4xl',
-    full: 'max-w-screen-xl'
+    full: 'max-w-screen-xl h-[95vh]'
   };
 
   const handleOverlayClick = (e) => {
@@ -75,14 +75,14 @@ function Modal({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={`
-              relative w-full ${sizeClasses[size]} max-h-[90vh] 
-              bg-white rounded-xl shadow-2xl overflow-hidden
+              relative w-full ${sizeClasses[size]} ${size === 'full' ? 'max-h-[95vh]' : 'max-h-[90vh]'} 
+              bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col
               ${className}
             `}
           >
             {/* Header */}
             {(title || showCloseButton) && (
-              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
                 {title && (
                   <h2 className="text-xl font-semibold text-gray-900">
                     {title}
@@ -102,7 +102,7 @@ function Modal({
             )}
 
             {/* Content */}
-            <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
+            <div className="flex-1 overflow-y-auto min-h-0">
               {children}
             </div>
           </motion.div>
