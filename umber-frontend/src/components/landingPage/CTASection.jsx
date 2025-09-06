@@ -57,7 +57,7 @@ function CTASection() {
 
             <p className="text-lg sm:text-xl text-umber-100 max-w-3xl mx-auto mb-8 leading-relaxed">
               <UmberText>
-                create your first wishlist today and experience the difference
+                create your first umber today and experience the difference
                 thoughtful desire makes. do it for your focus, and your
                 finances.
               </UmberText>

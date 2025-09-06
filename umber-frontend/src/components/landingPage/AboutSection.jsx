@@ -70,30 +70,23 @@ function AboutSection() {
             </h3>
             <div className="space-y-6 text-umber-700">
               <p className="text-lg leading-relaxed">
-                <UmberText>
                   in a world of endless options and impulse purchases, umber
                   provides a peaceful space to curate your desires. Our platform
                   encourages reflection before action, helping you understand
                   what truly matters.
-                </UmberText>
               </p>
               <div className="my-8 text-center">
-                <p className="text-xl font-semibold text-umber-800 bg-gradient-to-r from-moss-100 to-ochre-100 rounded-xl px-6 py-4 border border-moss-200">
+                <p className="text-xl text-umber-800 bg-gradient-to-r from-moss-100 to-ochre-100 rounded-xl px-6 py-4 border border-moss-200">
                   we call it: <span className="text-xl font-bold text-moss-700 italic font-family-display">contemplative commerce</span>
                 </p>
               </div>
               <p className="text-lg leading-relaxed">
-                <UmberText>
-                  whether you're building a reading list, tracking tech gadgets,
-                  or organizing beauty products, umber turns wishful thinking
-                  into thoughtful planning.
-                </UmberText>
-              </p>
+                  create your first umber today and experience the difference thoughtful desire makes. 
+                  do it for your focus, and your finances.
+                </p>
               <p className="text-lg leading-relaxed">
-                <UmberText>
                   the name "umber" represents the earth-toned, grounded approach
                   we take to consumption - natural, considered, and beautiful.
-                </UmberText>
               </p>
             </div>
           </motion.div>
