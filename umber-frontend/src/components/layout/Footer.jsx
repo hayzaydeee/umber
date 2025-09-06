@@ -5,8 +5,6 @@ import {
   InstagramLogoIcon, 
   LinkedInLogoIcon,
   GitHubLogoIcon,
-  EnvelopeClosedIcon,
-  HeartIcon,
   ArrowTopRightIcon
 } from "@radix-ui/react-icons";
 import UmberText from "../ui/UmberText";
@@ -82,13 +80,13 @@ function Footer() {
   ];
 
   return (
-    <footer className="bg-umber-700 border-t-0">
+    <footer className="bg-gradient-to-b from-umber-700 to-umber-800 border-t-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Main Footer Content */}
         <div className="py-12 md:py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-12">
             {/* Company Info */}
-            <div className="col-span-2 md:col-span-2">
+            <div className="lg:flex-1 lg:max-w-md">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -127,36 +125,38 @@ function Footer() {
             </div>
 
             {/* Footer Links */}
-            {footerSections.map((section, sectionIndex) => (
-              <div key={section.title} className="col-span-1">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="text-white font-semibold mb-4">
-                    <UmberText>{section.title}</UmberText>
-                  </h3>
-                  <ul className="space-y-3">
-                    {section.links.map((link) => (
-                      <li key={link.name}>
-                        <a
-                          href={link.href}
-                          onClick={link.onClick}
-                          className="text-umber-200 hover:text-white transition-colors text-sm group flex items-center cursor-pointer"
-                        >
-                          <UmberText>{link.name}</UmberText>
-                          {link.href.startsWith('http') && (
-                            <ArrowTopRightIcon className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          )}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </div>
-            ))}
+            <div className="flex flex-col sm:flex-row gap-8 lg:gap-12">
+              {footerSections.map((section, sectionIndex) => (
+                <div key={section.title} className="min-w-0">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <h3 className="text-white font-semibold mb-4">
+                      <UmberText>{section.title}</UmberText>
+                    </h3>
+                    <ul className="space-y-3">
+                      {section.links.map((link) => (
+                        <li key={link.name}>
+                          <a
+                            href={link.href}
+                            onClick={link.onClick}
+                            className="text-umber-200 hover:text-white transition-colors text-sm group flex items-center cursor-pointer"
+                          >
+                            <UmberText>{link.name}</UmberText>
+                            {link.href.startsWith('http') && (
+                              <ArrowTopRightIcon className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            )}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

@@ -88,14 +88,14 @@ function DashboardSnapshot() {
                 <UmberText>welcome back, Alex</UmberText>
               </h2>
               <p className="text-umber-600 mb-4">
-                <UmberText>you have 84 items across 4 categories. what are we adding today?</UmberText>
+                <UmberText>you have 84 items across 4 umbers. what are we adding today?</UmberText>
               </p>
               <div className="flex space-x-3">
                 <button className="px-4 py-2 bg-moss-600 text-white rounded-lg text-sm font-medium hover:bg-moss-700 transition-colors">
-                  <UmberText>Add New Item</UmberText>
+                  <UmberText><PlusIcon className="w-5 h-5" /></UmberText>
                 </button>
                 <button className="px-4 py-2 border border-umber-300 text-umber-700 rounded-lg text-sm font-medium hover:bg-umber-50 transition-colors">
-                  <UmberText>Browse Categories</UmberText>
+                  <UmberText>new umber</UmberText>
                 </button>
               </div>
             </div>

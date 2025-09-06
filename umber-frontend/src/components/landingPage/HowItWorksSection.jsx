@@ -101,7 +101,7 @@ function HowItWorksSection() {
           viewport={{ once: true }}
         >
           <div className="inline-flex items-center gap-2 bg-moss-100 rounded-full px-4 py-2 mb-6">
-            <span className="text-moss-700 text-sm font-medium">📚 How it works</span>
+            <span className="text-moss-700 text-sm font-medium">📚 how it works</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-umber-800 mb-6">
             <UmberText>with us, organizing your wants is easy</UmberText>

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 import UmberText from "../ui/UmberText";
 import DashboardSnapshot from "../demo/DashboardSnapshot";
@@ -109,7 +108,7 @@ function AboutSection() {
           viewport={{ once: true }}
         >
           <h3 className="text-3xl font-display font-semibold text-moss-200 mb-6">
-            <UmberText>Our Philosophy</UmberText>
+            <UmberText>our philosophy</UmberText>
           </h3>
           <p className="text-xl text-moss-100 max-w-4xl mx-auto leading-relaxed mb-8">
               "true luxury lies not in having everything, but in having what <span className="font-semibold text-ochre-300">matters</span>. <span className="font-family-display italic">u</span>mber helps you curate desire into intention,

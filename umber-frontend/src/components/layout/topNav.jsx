@@ -4,12 +4,25 @@ import { motion, AnimatePresence } from "motion/react";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import Button from "../ui/Button";
 import UmberText from "../ui/UmberText";
+import Modal from "../ui/Modal";
+import ContactForm from "../forms/ContactForm";
 
 function TopNav({ show = true }) {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const observerRef = useRef(null);
+
+  const handleContactClick = (e) => {
+    if (e) e.preventDefault();
+    setIsContactModalOpen(true);
+  };
+
+  const handleContactSuccess = (formData) => {
+    console.log("Contact form submitted:", formData);
+    // Here you would typically send the data to your backend
+  };
 
   const navItems = [
     { id: "home", label: "Home" },
@@ -17,7 +30,7 @@ function TopNav({ show = true }) {
     { id: "howItWorks", label: "How It Works" },
     { id: "features", label: "Features" },
     // { id: "pricing", label: "Pricing" },
-    { id: "contact", label: "Contact Us" }
+    { id: "contact", label: "Contact Us" },
   ];
 
   // Initialize observer when needed
@@ -26,8 +39,8 @@ function TopNav({ show = true }) {
 
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -80% 0px',
-      threshold: 0
+      rootMargin: "-20% 0px -80% 0px",
+      threshold: 0,
     };
 
     const observerCallback = (entries) => {
@@ -38,7 +51,10 @@ function TopNav({ show = true }) {
       });
     };
 
-    observerRef.current = new IntersectionObserver(observerCallback, observerOptions);
+    observerRef.current = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
 
     // Observe all sections
     navItems.forEach((item) => {
@@ -52,7 +68,7 @@ function TopNav({ show = true }) {
   const scrollToSection = (sectionId) => {
     // Initialize observer on first interaction if not already done
     initializeObserver();
-    
+
     setActiveSection(sectionId);
     setMobileMenuOpen(false); // Close mobile menu when navigating
     const element = document.getElementById(sectionId);
@@ -63,17 +79,17 @@ function TopNav({ show = true }) {
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-umber-100"
         initial={{ y: -100, opacity: 0 }}
-        animate={{ 
-          y: show ? 0 : -100, 
-          opacity: show ? 1 : 0 
+        animate={{
+          y: show ? 0 : -100,
+          opacity: show ? 1 : 0,
         }}
-        transition={{ 
-          duration: 0.6, 
+        transition={{
+          duration: 0.6,
           ease: "easeOut",
-          delay: show ? 0.3 : 0 
+          delay: show ? 0.3 : 0,
         }}
       >
         <div className="max-w-9xl mx-auto px-6 py-5">
@@ -113,20 +129,25 @@ function TopNav({ show = true }) {
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => item.id === "contact" ? handleContactClick() : scrollToSection(item.id)}
                   className={`
                     px-4 py-3 text-lg font-medium transition-all duration-200 rounded-lg
-                    ${activeSection === item.id 
-                      ? 'text-moss-700 bg-moss-50' 
-                      : 'text-umber-600 hover:text-moss-700 hover:bg-moss-50/50'
+                    ${
+                      activeSection === item.id
+                        ? "text-moss-700 bg-moss-50"
+                        : "text-umber-600 hover:text-moss-700 hover:bg-moss-50/50"
                     }
                   `}
-                  dangerouslySetInnerHTML={{
-                    __html: item.label === "About" ? "abo<span class='italic font-family-display'>u</span>t" :
-                            item.label === "Features" ? "feat<span class='italic font-family-display'>u</span>res" :
-                            item.label.toLowerCase()
-                  }}
-                />
+                >
+                  <UmberText>
+                    {item.label === "About" ? 
+                      <>abo<span className="italic font-family-display">u</span>t</> :
+                      item.label === "Features" ? 
+                      <>feat<span className="italic font-family-display">u</span>res</> :
+                      item.label.toLowerCase()
+                    }
+                  </UmberText>
+                </button>
               ))}
             </div>
 
@@ -135,7 +156,7 @@ function TopNav({ show = true }) {
               <Button
                 variant="outline"
                 size="md"
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="text-umber-700 hover:text-umber-900 px-5 py-2.5"
               >
                 log in
@@ -143,7 +164,7 @@ function TopNav({ show = true }) {
               <Button
                 variant="contemplative"
                 size="md"
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate("/signup")}
                 className="px-5 py-2.5"
               >
                 <UmberText>sign up</UmberText>
@@ -163,11 +184,11 @@ function TopNav({ show = true }) {
             exit={{ opacity: 0 }}
           >
             {/* Backdrop */}
-            <motion.div 
+            <motion.div
               className="absolute inset-0 bg-black/20 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
-            
+
             {/* Menu Panel */}
             <motion.div
               className="absolute top-0 right-0 w-72 h-full bg-white shadow-xl border-l border-umber-100"
@@ -179,24 +200,36 @@ function TopNav({ show = true }) {
               <div className="p-8 pt-24">
                 {/* Mobile Navigation Links */}
                 <div className="space-y-6 mb-10">
-                  {navItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      className={`
-                        w-full text-left px-5 py-4 text-xl font-medium transition-all duration-200 rounded-lg
-                        ${activeSection === item.id 
-                          ? 'text-moss-700 bg-moss-50' 
-                          : 'text-umber-600 hover:text-moss-700 hover:bg-moss-50/50'
-                        }
-                      `}
-                      dangerouslySetInnerHTML={{
-                        __html: item.label === "About" ? "abo<span class='italic font-family-display'>u</span>t" :
-                                item.label === "Features" ? "feat<span class='italic font-family-display'>u</span>res" :
-                                item.label.toLowerCase()
-                      }}
-                    />
-                  ))}
+                    {navItems.map((item) => (
+                        <button
+                            key={item.id}
+                            onClick={() => {
+                                if (item.id === 'contact') {
+                                    handleContactClick();
+                                    setMobileMenuOpen(false);
+                                } else {
+                                    scrollToSection(item.id);
+                                }
+                            }}
+                            className={`
+                                w-full text-left px-5 py-4 text-xl font-medium transition-all duration-200 rounded-lg
+                                ${
+                                    activeSection === item.id
+                                        ? "text-moss-700 bg-moss-50"
+                                        : "text-umber-600 hover:text-moss-700 hover:bg-moss-50/50"
+                                }
+                            `}
+                        >
+                            <UmberText>
+                                {item.label === "About" ? 
+                                  <>abo<span className="italic font-family-display">u</span>t</> :
+                                  item.label === "Features" ? 
+                                  <>feat<span className="italic font-family-display">u</span>res</> :
+                                  item.label.toLowerCase()
+                                }
+                            </UmberText>
+                        </button>
+                    ))}
                 </div>
 
                 {/* Mobile Auth Buttons */}
@@ -205,7 +238,7 @@ function TopNav({ show = true }) {
                     variant="outline"
                     size="lg"
                     onClick={() => {
-                      navigate('/login');
+                      navigate("/login");
                       setMobileMenuOpen(false);
                     }}
                     className="w-full text-umber-700 hover:text-umber-900 py-3"
@@ -216,7 +249,7 @@ function TopNav({ show = true }) {
                     variant="contemplative"
                     size="lg"
                     onClick={() => {
-                      navigate('/signup');
+                      navigate("/signup");
                       setMobileMenuOpen(false);
                     }}
                     className="w-full py-3"
@@ -229,6 +262,19 @@ function TopNav({ show = true }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Contact Modal */}
+      <Modal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        title="Contact Us"
+        size="md"
+      >
+        <ContactForm
+          onSuccess={handleContactSuccess}
+          onClose={() => setIsContactModalOpen(false)}
+        />
+      </Modal>
     </>
   );
 }
