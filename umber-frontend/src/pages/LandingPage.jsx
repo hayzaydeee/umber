@@ -1,41 +1,50 @@
+import React, { useState } from 'react';
 import HeroSection from '../components/landingPage/HeroSection';
+import AboutSection from '../components/landingPage/AboutSection';
+import HowItWorksSection from '../components/landingPage/HowItWorksSection';
+import FeaturesSection from '../components/landingPage/FeaturesSection';
+import WhyUmberMobileSection from '../components/landingPage/WhyUmberMobileSection';
+import PricingSection from '../components/landingPage/PricingSection';
+import CTASection from '../components/landingPage/CTASection';
 import TopNav from '../components/layout/topNav';
+import Footer from '../components/layout/Footer';
 import UmberText from '../components/ui/UmberText';
 
 function LandingPage() {
+  const [showTopNav, setShowTopNav] = useState(false);
+
   return (
     <div className="w-full min-h-screen bg-white relative">
       {/* Top Navigation */}
-      <TopNav />
+      <TopNav show={showTopNav} />
       
       {/* Main Content */}
       <main>
         <section id="home">
-          <HeroSection />
+          <HeroSection onAnimationComplete={() => setShowTopNav(true)} />
         </section>
         
-        {/* Placeholder sections for navigation */}
-        <section id="about" className="min-h-screen bg-moss-50 flex items-center justify-center">
-          <div className="text-center">
-            <UmberText as="h2" className="text-4xl font-display text-umber-800 mb-4">About</UmberText>
-            <UmberText as="p" className="text-umber-600">Learn about our mission</UmberText>
-          </div>
-        </section>
+        {/* About Section */}
+        <AboutSection />
         
-        <section id="features" className="min-h-screen bg-ochre-50 flex items-center justify-center">
-          <div className="text-center">
-            <UmberText as="h2" className="text-4xl font-display text-umber-800 mb-4">Features</UmberText>
-            <UmberText as="p" className="text-umber-600">Discover what makes umber unique</UmberText>
-          </div>
-        </section>
+        {/* How It Works Section */}
+        <HowItWorksSection />
         
-        <section id="pricing" className="min-h-screen bg-umber-50 flex items-center justify-center">
-          <div className="text-center">
-            <UmberText as="h2" className="text-4xl font-display text-umber-800 mb-4">Pricing</UmberText>
-            <UmberText as="p" className="text-umber-600">Choose your perfect plan</UmberText>
-          </div>
-        </section>
+        {/* Features Section */}
+        <FeaturesSection />
+        
+        {/* Why Umber Mobile Section - Only shows on mobile after Features */}
+        <WhyUmberMobileSection />
+        
+        {/* Pricing Section */}
+       {/* <PricingSection /> */}
+        
+        {/* CTA Section */}
+        <CTASection />
       </main>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "motion/react"
+import { motion, AnimatePresence } from "motion/react"
 import Button from "../ui/Button";
 import UmberText from "../ui/UmberText";
 
-function HeroSection() {
+function HeroSection({ onAnimationComplete }) {
   const navigate = useNavigate();
   const [showRestOfPage, setShowRestOfPage] = useState(false);
   const [shrinkHeading, setShrinkHeading] = useState(false);
@@ -13,7 +13,7 @@ function HeroSection() {
  
   // Typing animation for the heading text
   const headingText = "a wiser way to ";
-  const wantText = "want";
+  const wantText = "want.";
 
   // Animation variants for rest of page elements
   const restOfPageVariants = {
@@ -41,6 +41,12 @@ function HeroSection() {
     setTimeout(() => setLightBackground(true), 200);
     // Delay showing rest of page until background transition is underway
     setTimeout(() => setShowRestOfPage(true), 600);
+    // Show top nav after everything else is complete
+    setTimeout(() => {
+      if (onAnimationComplete) {
+        onAnimationComplete();
+      }
+    }, 1000);
   };
 
   return (
@@ -54,17 +60,48 @@ function HeroSection() {
       }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
     >
-      {/* Background Pattern - only show when light */}
-      <motion.div 
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: lightBackground ? 0.05 : 0 }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
-      >
-        <div className="absolute top-20 left-10 w-24 h-24 bg-moss-600 rounded-full blur-2xl"></div>
-        <div className="absolute top-40 right-20 w-20 h-20 bg-ochre-400 rounded-full blur-xl"></div>
-        <div className="absolute bottom-32 left-1/4 w-28 h-28 bg-umber-400 rounded-full blur-2xl"></div>
-      </motion.div>
+      {/* Animated Background Blobs - only show when light */}
+      <AnimatePresence>
+        {lightBackground && (
+          <motion.div 
+            className="absolute inset-0 z-0 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          >
+            {/* Moss blob - top left */}
+            <motion.div
+              className="absolute top-20 left-10 w-64 h-64 rounded-full bg-moss-600/25 blur-3xl"
+              animate={{
+                x: [0, 20, -15, 0],
+                y: [0, 25, 10, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 18,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
+            />
+            
+            {/* Umber blob - bottom right */}
+            <motion.div
+              className="absolute bottom-20 right-10 w-72 h-72 rounded-full bg-ochre-500/20 blur-3xl"
+              animate={{
+                x: [0, -25, 20, 0],
+                y: [0, 15, -20, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 22,
+                ease: "easeInOut",
+                delay: 1.5,
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div 
         className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12"
@@ -81,9 +118,9 @@ function HeroSection() {
             }}
           >
             <motion.h1 
-              className="font-display font-light leading-tight text-center w-full"
+              className="font-display font-bold leading-tight text-center w-full"
               initial={{ 
-                fontSize: "clamp(4rem, 12vw, 9rem)",
+                fontSize: "clamp(4rem, 12vw, 8.5rem)",
                 lineHeight: "1.1",
                 color: "rgb(254, 252, 251)" // umber-50 for dark background
               }}
@@ -206,7 +243,10 @@ function HeroSection() {
               <Button 
                 variant="outline" 
                 size="md"
-                onClick={() => navigate('/login')}
+                onClick={() => {
+                  const aboutSection = document.getElementById('about');
+                  aboutSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="px-6 py-3"
               >
                 <UmberText>what's umber?</UmberText>
