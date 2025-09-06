@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowRightIcon, HeartIcon, StarIcon } from "@radix-ui/react-icons";
 import UmberText from "../ui/UmberText";
 import Button from "../ui/Button";
 
 function CTASection() {
+  const navigate = useNavigate();
   const testimonials = [
     {
       text: "Umber transformed how I think about wanting things. It's mindful shopping at its finest.",
@@ -66,6 +68,7 @@ function CTASection() {
               <Button
                 variant="contemplative"
                 size="lg"
+                onClick={() => navigate('/signup')}
                 className="group bg-gradient-to-r from-ochre-500 to-ochre-600 hover:from-ochre-600 hover:to-ochre-700 text-white border-none shadow-xl"
               >
                 <UmberText>Start free today</UmberText>

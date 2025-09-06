@@ -13,6 +13,7 @@ import {
   SwitchIcon,
   MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
+import MindMapConnections from "../components/ui/MindMapConnections";
 
 const mainFeatures = [
   {
@@ -117,10 +118,10 @@ const mainFeatures = [
     borderColor: "border-umber-200",
     mockup: (
       <div className="bg-white rounded-xl p-4 shadow-sm border border-umber-200 w-full">
-        <div className="relative h-56 flex items-center justify-center">
+        <div className="relative h-40 sm:h-48 md:h-56 flex items-center justify-center">
           {/* Center Node - Umber Name */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-            <div className="w-20 h-20 bg-gradient-to-br from-umber-600 to-umber-700 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-gradient-to-br from-umber-600 to-umber-700 rounded-full flex items-center justify-center shadow-lg">
               <span className="text-xs text-white font-bold text-center leading-tight">
                 Home
                 <br />
@@ -129,10 +130,10 @@ const mainFeatures = [
             </div>
           </div>
 
-          {/* Branch Nodes - Nests - Freeform positioning */}
+          {/* Branch Nodes - Responsive positioning */}
           {/* Living Room - Top left area */}
-          <div className="absolute top-6 left-8">
-            <div className="w-14 h-14 bg-gradient-to-br from-moss-400 to-moss-500 rounded-2xl flex items-center justify-center shadow-md transform rotate-3">
+          <div className="absolute top-4 left-4 sm:top-5 sm:left-6 md:top-6 md:left-8">
+            <div className="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-moss-400 to-moss-500 rounded-2xl flex items-center justify-center shadow-md transform rotate-3">
               <span className="text-xs text-white font-semibold text-center leading-tight">
                 Living
                 <br />
@@ -142,8 +143,8 @@ const mainFeatures = [
           </div>
 
           {/* Kitchen - Top right area */}
-          <div className="absolute top-8 right-6">
-            <div className="w-14 h-14 bg-gradient-to-br from-ochre-400 to-ochre-500 rounded-xl flex items-center justify-center shadow-md transform -rotate-2">
+          <div className="absolute top-5 right-3 sm:top-6 sm:right-4 md:top-8 md:right-6">
+            <div className="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-ochre-400 to-ochre-500 rounded-xl flex items-center justify-center shadow-md transform -rotate-2">
               <span className="text-xs text-white font-semibold text-center leading-tight">
                 Kitchen
               </span>
@@ -151,8 +152,8 @@ const mainFeatures = [
           </div>
 
           {/* Outdoor - Bottom right area */}
-          <div className="absolute bottom-6 right-8">
-            <div className="w-14 h-14 bg-gradient-to-br from-moss-600 to-moss-700 rounded-2xl flex items-center justify-center shadow-md transform rotate-1">
+          <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-6 md:bottom-6 md:right-8">
+            <div className="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-moss-600 to-moss-700 rounded-2xl flex items-center justify-center shadow-md transform rotate-1">
               <span className="text-xs text-white font-semibold text-center leading-tight">
                 Outdoor
               </span>
@@ -160,115 +161,16 @@ const mainFeatures = [
           </div>
 
           {/* Bedroom - Bottom left area */}
-          <div className="absolute bottom-8 left-6">
-            <div className="w-14 h-14 bg-gradient-to-br from-umber-400 to-umber-500 rounded-xl flex items-center justify-center shadow-md transform -rotate-1">
+          <div className="absolute bottom-5 left-3 sm:bottom-6 sm:left-4 md:bottom-8 md:left-6">
+            <div className="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-umber-400 to-umber-500 rounded-xl flex items-center justify-center shadow-md transform -rotate-1">
               <span className="text-xs text-white font-semibold text-center leading-tight">
                 Bedroom
               </span>
             </div>
           </div>
 
-          {/* Connection Lines - Straight gradient lines */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            viewBox="0 0 300 224"
-          >
-            {/* Define gradients */}
-            <defs>
-              <linearGradient
-                id="livingGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#84cc16" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#65a30d" stopOpacity="0.4" />
-              </linearGradient>
-              <linearGradient
-                id="kitchenGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#d97706" stopOpacity="0.4" />
-              </linearGradient>
-              <linearGradient
-                id="outdoorGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#65a30d" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#16a34a" stopOpacity="0.4" />
-              </linearGradient>
-              <linearGradient
-                id="bedroomGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#a3a3a3" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#6b7280" stopOpacity="0.4" />
-              </linearGradient>
-            </defs>
-
-            {/* Center to Living Room*/}
-            {/* From center node edge (130, 95) to Living Room node edge (60, 53) */}
-            <line
-              x1="130"
-              y1="95"
-              x2="0"
-              y2="53"
-              stroke="url(#livingGradient)"
-              strokeWidth="3"
-              strokeDasharray="5,3"
-              strokeLinecap="round"
-            />
-
-            {/* Center to Kitchen*/}
-            {/* From center node edge (170, 95) to Kitchen node edge (240, 53) */}
-            <line
-              x1="170"
-              y1="95"
-              x2="300"
-              y2="53"
-              stroke="url(#kitchenGradient)"
-              strokeWidth="3"
-              strokeDasharray="7,2"
-              strokeLinecap="round"
-            />
-
-            {/* Center to Outdoor */}
-            {/* From center node edge (170, 129) to Outdoor node edge (240, 171) */}
-            <line
-              x1="170"
-              y1="129"
-              x2="300"
-              y2="171"
-              stroke="url(#outdoorGradient)"
-              strokeWidth="3"
-              strokeDasharray="4,4"
-              strokeLinecap="round"
-            />
-
-            {/* Center to Bedroom*/}
-            {/* From center node edge (130, 129) to Bedroom node edge (60, 171) */}
-            <line
-              x1="130"
-              y1="129"
-              x2="0"
-              y2="171"
-              stroke="url(#bedroomGradient)"
-              strokeWidth="3"
-              strokeDasharray="6,3"
-              strokeLinecap="round"
-            />
-          </svg>
+          {/* Responsive Connection Lines */}
+          <MindMapConnections />
         </div>
         <div className="text-xs text-umber-600 text-center mt-2">
           a 'Home Tech' mind map

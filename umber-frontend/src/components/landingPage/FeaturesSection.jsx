@@ -1,45 +1,32 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import UmberText from "../ui/UmberText";
 import Button from "../ui/Button";
 import {mainFeatures, miniFeatures} from "../../data/Features.jsx";
 
 function FeaturesSection() {
+  const navigate = useNavigate();
   const [hoveredFeature, setHoveredFeature] = useState(null);
   const [clickedFeature, setClickedFeature] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
 
-  // Check if device is mobile
+  // Auto-dismiss clicked state after 3 seconds
   React.useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
-    };
-    
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
-
-  // Auto-dismiss clicked state after 3 seconds on mobile
-  React.useEffect(() => {
-    if (clickedFeature !== null && isMobile) {
+    if (clickedFeature !== null) {
       const timer = setTimeout(() => {
         setClickedFeature(null);
       }, 3000);
       
       return () => clearTimeout(timer);
     }
-  }, [clickedFeature, isMobile]);
+  }, [clickedFeature]);
 
-  const handleFeatureInteraction = (index) => {
-    if (isMobile) {
-      setClickedFeature(clickedFeature === index ? null : index);
-    }
+  const handleFeatureClick = (index) => {
+    setClickedFeature(clickedFeature === index ? null : index);
   };
 
   const isFeatureActive = (index) => {
-    return isMobile ? clickedFeature === index : hoveredFeature === index;
+    return clickedFeature === index || hoveredFeature === index;
   };
 
 
@@ -131,10 +118,10 @@ function FeaturesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               viewport={{ once: true }}
-              whileHover={!isMobile ? { y: -4, scale: 1.02 } : {}}
-              onHoverStart={() => !isMobile && setHoveredFeature(index)}
-              onHoverEnd={() => !isMobile && setHoveredFeature(null)}
-              onClick={() => handleFeatureInteraction(index)}
+              whileHover={{ y: -4, scale: 1.02 }}
+              onHoverStart={() => setHoveredFeature(index)}
+              onHoverEnd={() => setHoveredFeature(null)}
+              onClick={() => handleFeatureClick(index)}
             >
               <div className="relative h-16 flex items-center justify-center mb-3">
                 <AnimatePresence mode="wait">
@@ -227,6 +214,7 @@ function FeaturesSection() {
           <Button 
             variant="contemplative"
             size="md"
+            onClick={() => navigate('/signup')}
             className="px-8 py-4"
           >
             <UmberText>Get started →</UmberText>

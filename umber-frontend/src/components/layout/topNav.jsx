@@ -92,46 +92,68 @@ function TopNav({ show = true }) {
           delay: show ? 0.3 : 0,
         }}
       >
-        <div className="max-w-9xl mx-auto px-6 py-5">
+        <div className="max-w-9xl mx-auto px-4 py-3">
           {/* Mobile Layout: 2 columns */}
-          <div className="md:hidden flex items-center justify-between">
+          <div className="lg:hidden flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
-              <h1 className="text-3xl font-display font-semibold text-umber-800">
+              <h1 className="text-2xl font-display font-semibold text-umber-800">
                 <UmberText>umber</UmberText>
               </h1>
             </div>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              className="p-3 rounded-md text-umber-600 hover:text-moss-700 hover:bg-moss-50/50 transition-colors"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? (
-                <Cross1Icon className="w-7 h-7" />
-              ) : (
-                <HamburgerMenuIcon className="w-7 h-7" />
-              )}
-            </button>
+            <div className="flex items-center gap-3">
+              {/* Tablet Auth Buttons (hidden on mobile, shown on tablet) */}
+              <div className="hidden md:flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate("/login")}
+                  className="text-umber-700 hover:text-umber-900 px-3 py-1.5"
+                >
+                  log in
+                </Button>
+                <Button
+                  variant="contemplative"
+                  size="sm"
+                  onClick={() => navigate("/signup")}
+                  className="px-3 py-1.5"
+                >
+                  <UmberText>sign up</UmberText>
+                </Button>
+              </div>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                className="p-2 rounded-md text-umber-600 hover:text-moss-700 hover:bg-moss-50/50 transition-colors"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? (
+                  <Cross1Icon className="w-6 h-6" />
+                ) : (
+                  <HamburgerMenuIcon className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Desktop Layout: 3 columns */}
-          <div className="hidden md:grid grid-cols-3 items-center">
+          <div className="hidden lg:grid grid-cols-3 items-center">
             {/* Logo */}
             <div className="flex items-center justify-start">
-              <h1 className="text-3xl font-display font-semibold text-umber-800">
+              <h1 className="text-2xl font-display font-semibold text-umber-800">
                 <UmberText>umber</UmberText>
               </h1>
             </div>
 
             {/* Desktop Navigation Links */}
-            <div className="flex items-center justify-center space-x-8 md:space-x-3">
+            <div className="flex items-center justify-center space-x-3">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => item.id === "contact" ? handleContactClick() : scrollToSection(item.id)}
                   className={`
-                    px-4 py-3 text-lg font-medium transition-all duration-200 rounded-lg
+                    px-3 py-2 text-base font-medium transition-all duration-200 rounded-lg
                     ${
                       activeSection === item.id
                         ? "text-moss-700 bg-moss-50"
@@ -152,20 +174,20 @@ function TopNav({ show = true }) {
             </div>
 
             {/* Desktop Auth Buttons */}
-            <div className="flex items-center justify-end gap-4">
+            <div className="flex items-center justify-end gap-3">
               <Button
                 variant="outline"
-                size="md"
+                size="sm"
                 onClick={() => navigate("/login")}
-                className="text-umber-700 hover:text-umber-900 px-5 py-2.5"
+                className="text-umber-700 hover:text-umber-900 px-4 py-2"
               >
                 log in
               </Button>
               <Button
                 variant="contemplative"
-                size="md"
+                size="sm"
                 onClick={() => navigate("/signup")}
-                className="px-5 py-2.5"
+                className="px-4 py-2"
               >
                 <UmberText>sign up</UmberText>
               </Button>
@@ -174,11 +196,11 @@ function TopNav({ show = true }) {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile/Tablet Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -197,9 +219,9 @@ function TopNav({ show = true }) {
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.3 }}
             >
-              <div className="p-8 pt-24">
-                {/* Mobile Navigation Links */}
-                <div className="space-y-6 mb-10">
+              <div className="p-6 pt-20">
+                {/* Navigation Links */}
+                <div className="space-y-4 mb-8">
                     {navItems.map((item) => (
                         <button
                             key={item.id}
@@ -212,7 +234,7 @@ function TopNav({ show = true }) {
                                 }
                             }}
                             className={`
-                                w-full text-left px-5 py-4 text-xl font-medium transition-all duration-200 rounded-lg
+                                w-full text-left px-4 py-3 text-lg font-medium transition-all duration-200 rounded-lg
                                 ${
                                     activeSection === item.id
                                         ? "text-moss-700 bg-moss-50"
@@ -232,27 +254,27 @@ function TopNav({ show = true }) {
                     ))}
                 </div>
 
-                {/* Mobile Auth Buttons */}
-                <div className="space-y-4">
+                {/* Mobile Auth Buttons (only show on actual mobile, not tablet) */}
+                <div className="space-y-3 md:hidden">
                   <Button
                     variant="outline"
-                    size="lg"
+                    size="md"
                     onClick={() => {
                       navigate("/login");
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full text-umber-700 hover:text-umber-900 py-3"
+                    className="w-full text-umber-700 hover:text-umber-900 py-2.5"
                   >
                     log in
                   </Button>
                   <Button
                     variant="contemplative"
-                    size="lg"
+                    size="md"
                     onClick={() => {
                       navigate("/signup");
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full py-3"
+                    className="w-full py-2.5"
                   >
                     <UmberText>sign up</UmberText>
                   </Button>

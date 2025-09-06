@@ -69,9 +69,6 @@ function WhyUmberMobileSection() {
               <UmberText>Mindful Curation</UmberText>
             </span>
             <span className="px-3 py-2 bg-moss-800/30 rounded-full text-sm">
-              <UmberText>Thoughtful Design</UmberText>
-            </span>
-            <span className="px-3 py-2 bg-moss-800/30 rounded-full text-sm">
               <UmberText>Sustainable Choices</UmberText>
             </span>
           </div>
