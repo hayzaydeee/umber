@@ -45,11 +45,11 @@ function FeaturesSection() {
             <span className="text-moss-700 text-sm font-medium">✨ Features</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-umber-800 mb-6">
-            <UmberText>Your all-purpose wishlist app</UmberText>
+            <UmberText>your all-purpose wishlist app</UmberText>
           </h2>
           <p className="text-lg sm:text-xl text-umber-600 max-w-3xl mx-auto leading-relaxed">
             <UmberText>
-              Discover a variety of our advanced features. Unlimited and free for individuals.
+              discover a variety of our advanced features.
             </UmberText>
           </p>
         </motion.div>
