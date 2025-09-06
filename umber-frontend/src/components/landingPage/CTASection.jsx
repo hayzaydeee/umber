@@ -43,12 +43,12 @@ function CTASection() {
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
               <UmberText>
-                Start your journey to
+                every impulse purchase started as a genuine want. umber helps you 
                 <br />
                 <span className="text-transparent bg-gradient-to-r from-ochre-300 to-moss-300 bg-clip-text">
-                  contemplative commerce
+                 tell the difference.
                 </span>
               </UmberText>
             </h2>

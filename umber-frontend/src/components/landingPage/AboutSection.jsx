@@ -110,9 +110,8 @@ function AboutSection() {
           <h3 className="text-3xl font-display font-semibold text-moss-200 mb-6">
             <UmberText>our philosophy</UmberText>
           </h3>
-          <p className="text-xl text-moss-100 max-w-4xl mx-auto leading-relaxed mb-8">
-              "true luxury lies not in having everything, but in having what <span className="font-semibold text-ochre-300">matters</span>. <span className="font-family-display italic">u</span>mber helps you curate desire into intention,
-              transforming wishful thinking into purposeful action."
+          <p className="text-xl text-moss-100 max-w-4xl mx-auto leading-relaxed mb-8 ">
+              <UmberText>"The space between wanting something and buying it is where wisdom lives. umber gives you that space."</UmberText>
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-moss-300">
             <span className="px-4 py-2 bg-moss-800/30 rounded-full text-sm">

@@ -15,7 +15,9 @@ function WhyUmberMobileSection() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 bg-moss-100 rounded-full px-4 py-2 mb-6">
-            <span className="text-moss-700 text-sm font-medium">🤔 Why Choose Us</span>
+            <span className="text-moss-700 text-sm font-medium">
+              🤔 Why Choose Us
+            </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-display font-semibold text-umber-800 mb-6">
             <UmberText>why umber?</UmberText>
@@ -25,21 +27,21 @@ function WhyUmberMobileSection() {
               <UmberText>
                 in a world of endless options and impulse purchases, umber
                 provides a peaceful space to curate your desires. Our platform
-                encourages reflection before action, helping you understand
-                what truly matters.
+                encourages reflection before action, helping you understand what
+                truly matters.
               </UmberText>
             </p>
             <p className="text-sm sm:text-base leading-relaxed">
               <UmberText>
                 whether you're building a reading list, tracking tech gadgets,
-                or organizing beauty products, umber turns wishful thinking
-                into thoughtful planning.
+                or organizing beauty products, umber turns wishful thinking into
+                thoughtful planning.
               </UmberText>
             </p>
             <p className="text-sm sm:text-base leading-relaxed">
               <UmberText>
-                the name "umber" represents the earth-toned, grounded approach
-                we take to consumption - natural, considered, and beautiful.
+                the name "umber" represents the grounded approach we take to
+                consumption - natural, considered, and beautiful.
               </UmberText>
             </p>
           </div>
@@ -58,9 +60,8 @@ function WhyUmberMobileSection() {
           </h3>
           <p className="text-base sm:text-lg text-moss-100 max-w-3xl mx-auto leading-relaxed mb-6">
             <UmberText>
-              "True luxury lies not in having everything, but in choosing
-              mindfully. Umber helps you curate desire into intention,
-              transforming wishful thinking into purposeful action."
+              The space between wanting something and buying it is where wisdom
+              lives. umber gives you that space.
             </UmberText>
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-moss-300">
