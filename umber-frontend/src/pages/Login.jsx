@@ -146,7 +146,7 @@ function Login() {
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-umber-700 mb-2">
-                <UmberText>Email address</UmberText>
+                <UmberText>email address</UmberText>
               </label>
               <div className="relative">
                 <EnvelopeClosedIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-umber-400 w-5 h-5" />
@@ -163,7 +163,7 @@ function Login() {
                       : 'border-umber-300 focus:ring-2 focus:ring-moss-500/20 focus:border-moss-500'
                     }
                   `}
-                  placeholder="Enter your email"
+                  placeholder="enter your email"
                   autoComplete="email"
                 />
               </div>
@@ -181,7 +181,7 @@ function Login() {
             {/* Password Field */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-umber-700 mb-2">
-                <UmberText>Password</UmberText>
+                <UmberText>password</UmberText>
               </label>
               <div className="relative">
                 <LockClosedIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-umber-400 w-5 h-5" />
@@ -198,7 +198,7 @@ function Login() {
                       : 'border-umber-300 focus:ring-2 focus:ring-moss-500/20 focus:border-moss-500'
                     }
                   `}
-                  placeholder="Enter your password"
+                  placeholder="enter your password"
                   autoComplete="current-password"
                 />
                 <button
@@ -232,15 +232,15 @@ function Login() {
                   className="w-4 h-4 text-moss-600 border-umber-300 rounded focus:ring-moss-500 focus:ring-2"
                 />
                 <span className="ml-2 text-sm text-umber-600">
-                  <UmberText>Remember me</UmberText>
+                  <UmberText>remember me</UmberText>
                 </span>
               </label>
-              <button
-                type="button"
+              <Link
+                to="/forgot-password"
                 className="text-sm text-moss-600 hover:text-moss-700 transition-colors"
               >
-                <UmberText>Forgot password?</UmberText>
-              </button>
+                <UmberText>forgot password?</UmberText>
+              </Link>
             </div>
 
             {/* Submit Button */}
@@ -321,6 +321,14 @@ function Login() {
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
+            <div className="mt-6 mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-umber-200"></div>
+                </div>
+                <div className="relative flex justify-center text-sm"></div>
+              </div>
+            </div>
             <p className="text-umber-600">
               <UmberText>
                 don't have an account?{' '}
