@@ -204,7 +204,7 @@ function FeaturesSection() {
         </div>
 
         {/* Call to Action */}
-        <motion.div 
+        {/* <motion.div 
           className="text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -217,9 +217,9 @@ function FeaturesSection() {
             onClick={() => navigate('/signup')}
             className="px-8 py-4"
           >
-            <UmberText>Get started →</UmberText>
+            <UmberText>try them out →</UmberText>
           </Button>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );

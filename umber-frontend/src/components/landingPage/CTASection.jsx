@@ -71,7 +71,7 @@ function CTASection() {
                 onClick={() => navigate('/signup')}
                 className="group bg-gradient-to-r from-ochre-500 to-ochre-600 hover:from-ochre-600 hover:to-ochre-700 text-white border-none shadow-xl"
               >
-                <UmberText>Start free today</UmberText>
+                <UmberText>start free today</UmberText>
                 <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
 
@@ -85,11 +85,11 @@ function CTASection() {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center items-center gap-6 text-umber-300 text-sm">
+            {/* <div className="flex flex-wrap justify-center items-center gap-6 text-umber-300 text-sm">
               <span>✓ 14-day free trial</span>
               <span>✓ No credit card required</span>
               <span>✓ Cancel anytime</span>
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Social Proof */}
