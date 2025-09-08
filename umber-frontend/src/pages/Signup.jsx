@@ -541,7 +541,7 @@ function Signup() {
                   <UmberText>welcome, {formData.firstName}!</UmberText>
                 </h3>
                 <p className="text-sm text-umber-600">
-                  <UmberText>Just a few more details to secure your account.</UmberText>
+                  <UmberText>just a few more details to secure your account.</UmberText>
                 </p>
               </div>
 
@@ -732,7 +732,7 @@ function Signup() {
                   />
                   <span className="text-sm text-umber-600">
                     <UmberText>
-                      I agree to the{" "}
+                      i agree to the{" "}
                       <button
                         type="button"
                         className="text-moss-600 hover:text-moss-700 font-medium transition-colors"
@@ -799,7 +799,7 @@ function Signup() {
                 </h3>
                 <p className="text-sm text-umber-600">
                   <UmberText>
-                    We've sent a 6-digit code to {formData.email}. Enter it below to complete your signup.
+                    we've sent a 6-digit code to {formData.email}. enter it below to complete your signup.
                   </UmberText>
                 </p>
               </div>

@@ -17,9 +17,9 @@ import MindMapConnections from "../components/ui/MindMapConnections";
 
 const mainFeatures = [
   {
-    title: "smart wishlist management",
+    title: "anythingAndEverything",
     description:
-      "create and organize unlimited wishlists across any category. Add items with rich details, images, and notes. Our intelligent categorization helps you stay organized effortlessly.",
+      "create and organize unlimited umbers across any category. Add items with rich details, and images. our intelligent categorization helps you stay organized effortlessly.",
     icon: BookmarkIcon,
     bgGradient: "from-moss-100 to-moss-200",
     iconColor: "text-moss-700",
@@ -64,9 +64,9 @@ const mainFeatures = [
     ),
   },
   {
-    title: "collaborative sharing",
+    title: "theMore, theMerrier",
     description:
-      "share wishlists with friends and family. Get suggestions, comments, and recommendations. Perfect for gift planning, group purchases, or inspiration sharing.",
+      "share umbers with friends and family. Get suggestions, comments, and recommendations. Perfect for gift planning, group purchases, or inspiration sharing.",
     icon: Share1Icon,
     bgGradient: "from-ochre-100 to-ochre-200",
     iconColor: "text-ochre-700",
@@ -179,7 +179,7 @@ const mainFeatures = [
     ),
   },
   {
-    title: "AI-powered Insights",
+    title: "umberAI",
     description:
       "get smart recommendations based on your wishlist patterns. our AI helps categorize items, suggests related products, and provides insights into your wanting habits.",
     icon: MagicWandIcon,
@@ -223,53 +223,41 @@ const mainFeatures = [
 
 const miniFeatures = [
   {
-    title: "Quick Add",
-    icon: PlusIcon,
-    description:
-      "Instantly add items from any website with our browser extension or mobile app.",
-  },
-  {
-    title: "Comments",
+    title: "commentsAndNotes",
     icon: ChatBubbleIcon,
     description:
-      "Leave notes and comments on items to remember why you wanted them.",
+      "leave notes and comments on items to remember why you wanted them.",
   },
   {
-    title: "Privacy Controls",
+    title: "privacyControls",
     icon: SwitchIcon,
     description:
-      "Choose who can see your wishlists with granular privacy settings.",
+      "choose who can see your wishlists with granular privacy settings.",
   },
   {
-    title: "Export Options",
+    title: "exportOptions",
     icon: DownloadIcon,
     description:
-      "Export your wishlists as PDF, CSV, or share them as beautiful web pages.",
+      "export your wishlists as PDF, CSV, or share them as beautiful web pages.",
   },
   {
-    title: "Real-time Sync",
+    title: "real-time Sync",
     icon: LightningBoltIcon,
     description:
-      "Your wishlists stay synchronized across all devices in real-time.",
+      "your wishlists stay synchronized across all devices in real-time.",
   },
   {
-    title: "Data Security",
-    icon: LockClosedIcon,
+    title: "quickAdd",
+    icon: PlusIcon,
     description:
-      "Enterprise-grade encryption keeps your personal data safe and secure.",
-  },
-  {
-    title: "Smart Categories",
-    icon: RocketIcon,
-    description:
-      "AI automatically organizes your items into meaningful categories and collections.",
+      "instantly add items from any website with our browser extension or mobile app.",
     comingSoon: true,
   },
   {
-    title: "Integrations",
+    title: "integrations",
     icon: MixerHorizontalIcon,
     description:
-      "Connect with popular shopping sites and productivity tools seamlessly.",
+      "connect with popular shopping sites and productivity tools seamlessly.",
     comingSoon: true,
   },
 ];

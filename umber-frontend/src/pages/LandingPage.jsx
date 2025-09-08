@@ -8,7 +8,6 @@ import PricingSection from '../components/landingPage/PricingSection';
 import CTASection from '../components/landingPage/CTASection';
 import TopNav from '../components/layout/topNav';
 import Footer from '../components/layout/Footer';
-import UmberText from '../components/ui/UmberText';
 
 function LandingPage() {
   const [showTopNav, setShowTopNav] = useState(false);

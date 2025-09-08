@@ -30,8 +30,8 @@ function Footer() {
       title: "Product",
       links: [
         { name: "features", href: "#features" },
-        { name: "pricing", href: "#pricing" },
         { name: "how it works", href: "#how-it-works" },
+        // { name: "pricing", href: "#pricing" },
         // { name: "Mobile app", href: "/app" },
         // { name: "API", href: "/api" },
         // { name: "Integrations", href: "/integrations" }
