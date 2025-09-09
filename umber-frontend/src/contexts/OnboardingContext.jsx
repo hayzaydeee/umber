@@ -6,7 +6,7 @@ export const ONBOARDING_STAGES = {
   FOUNDATION: 'foundation', 
   FIRST_CREATION: 'firstCreation',
   CANVAS_AWAKENING: 'canvasAwakening',
-  PATTERN_EMERGENCE: 'patternEmergence',
+  TOOL_ACTIVATION: 'toolActivation',
   COMPLETE: 'complete'
 };
 
@@ -68,12 +68,29 @@ const onboardingReducer = (state, action) => {
       };
 
     case 'UMBER_CREATED':
+      // Create the umber node for the mind map
+      const umberNode = {
+        id: `umber-${action.umber.id}`,
+        type: 'umber',
+        position: { x: 250, y: 150 }, // Center position
+        data: { 
+          label: action.umber.name,
+          category: action.umber.category || 'Collection',
+          itemCount: 0
+        }
+      };
+      
       return {
         ...state,
         currentStage: ONBOARDING_STAGES.CANVAS_AWAKENING,
         userCreations: {
           ...state.userCreations,
           umbers: [...state.userCreations.umbers, action.umber]
+        },
+        mindMap: {
+          ...state.mindMap,
+          nodes: [...state.mindMap.nodes, umberNode],
+          isVisible: true
         },
         progress: {
           ...state.progress,
@@ -82,19 +99,53 @@ const onboardingReducer = (state, action) => {
       };
 
     case 'ITEM_ADDED':
+      // Create item node and edge for mind map
+      const itemNode = {
+        id: `item-${action.item.id}`,
+        type: 'item',
+        position: { 
+          x: 400 + (state.userCreations.items.length * 50), 
+          y: 200 + (state.userCreations.items.length * 40) 
+        },
+        data: {
+          label: action.item.name,
+          price: action.item.price,
+          image: action.item.image,
+          url: action.item.url
+        }
+      };
+
+      // Create edge connecting item to its umber
+      const itemEdge = {
+        id: `edge-umber-${action.item.umberId}-item-${action.item.id}`,
+        source: `umber-${action.item.umberId}`,
+        target: `item-${action.item.id}`,
+        type: 'smoothstep',
+        style: { 
+          stroke: 'var(--color-moss-600)', 
+          strokeWidth: 2,
+          opacity: 0.8
+        }
+      };
+
       return {
         ...state,
-        currentStage: state.userCreations.items.length === 0 
-          ? ONBOARDING_STAGES.CANVAS_AWAKENING 
-          : ONBOARDING_STAGES.PATTERN_EMERGENCE,
+        currentStage: state.userCreations.items.length >= 1 
+          ? ONBOARDING_STAGES.TOOL_ACTIVATION 
+          : ONBOARDING_STAGES.CANVAS_AWAKENING,
         userCreations: {
           ...state.userCreations,
           items: [...state.userCreations.items, action.item]
         },
+        mindMap: {
+          ...state.mindMap,
+          nodes: [...state.mindMap.nodes, itemNode],
+          edges: [...state.mindMap.edges, itemEdge]
+        },
         progress: {
           ...state.progress,
           firstItemAdded: true,
-          mindMapRevealed: state.userCreations.items.length > 0
+          mindMapRevealed: state.userCreations.items.length >= 1
         }
       };
 
@@ -187,13 +238,18 @@ export const OnboardingProvider = ({ children }) => {
   const startOnboarding = useCallback(() => {
     dispatch({ type: 'START_ONBOARDING' });
     
-    // Auto-advance to foundation after 2 seconds
+    // Auto-advance to foundation
     const timerId = setTimeout(() => {
       dispatch({ type: 'ADVANCE_TO_FOUNDATION' });
-    }, 2000);
+    }, 24000);
     
     addTimer(timerId);
   }, []); // No dependencies since addTimer is now stable
+
+  // Simple function - no callback needed
+  const advanceToFoundation = () => {
+    dispatch({ type: 'ADVANCE_TO_FOUNDATION' });
+  };
 
   // Simple function - no callback needed
   const advanceToFirstCreation = () => {
@@ -205,6 +261,7 @@ export const OnboardingProvider = ({ children }) => {
     const umber = {
       id: Date.now(), // Simple ID for demo
       name: umberData.name,
+      category: umberData.category || 'Collection',
       createdAt: new Date().toISOString(),
       items: []
     };
@@ -288,9 +345,9 @@ export const OnboardingProvider = ({ children }) => {
       case ONBOARDING_STAGES.FIRST_CREATION:
         return userCreations.umbers.length > 0;
       case ONBOARDING_STAGES.CANVAS_AWAKENING:
-        return userCreations.items.length > 0;
-      case ONBOARDING_STAGES.PATTERN_EMERGENCE:
-        return userCreations.items.length > 1;
+        return userCreations.items.length > 1; // Need multiple items for tool activation
+      case ONBOARDING_STAGES.TOOL_ACTIVATION:
+        return true; // Tools are activated, ready to complete
       default:
         return false;
     }
@@ -318,6 +375,7 @@ export const OnboardingProvider = ({ children }) => {
     
     // Actions
     startOnboarding,
+    advanceToFoundation,
     advanceToFirstCreation,
     createUmber,
     addItem,

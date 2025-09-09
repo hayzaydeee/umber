@@ -5,7 +5,7 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import OAuthCompletion from './pages/OAuthCompletion';
 import Dashboard from './pages/Dashboard';
-import OnboardingExperience from './components/onboarding/OnboardingExperience';
+import SeamlessOnboardingExperience from './components/onboarding/SeamlessOnboardingExperience';
 import { OnboardingProvider } from './contexts/OnboardingContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 
@@ -21,7 +21,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/oauth-completion" element={<OAuthCompletion />} />
-            <Route path="/dashboard" element={<OnboardingExperience />} />
+            <Route path="/dashboard" element={<SeamlessOnboardingExperience />} />
           </Routes>
         </div>
       </Router>

@@ -118,7 +118,7 @@ function HeroSection({ onAnimationComplete }) {
             }}
           >
             <motion.h1 
-              className="font-display font-bold leading-tight text-center w-full"
+              className="font-family-display font-bold leading-tight text-center w-full"
               initial={{ 
                 fontSize: "clamp(4rem, 12vw, 8.5rem)",
                 lineHeight: "1.1",

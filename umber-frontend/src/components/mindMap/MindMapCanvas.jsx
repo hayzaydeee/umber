@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { 
   ReactFlow, 
   Background, 
@@ -14,6 +14,7 @@ import '@xyflow/react/dist/style.css';
 import UmberNode from './UmberNode';
 import NestNode from './NestNode';
 import ItemNode from './ItemNode';
+import { useOnboarding } from '../../contexts/OnboardingContext';
 
 // Define custom node types
 const nodeTypes = {
@@ -22,52 +23,57 @@ const nodeTypes = {
   item: ItemNode,
 };
 
-// Initial demo data - styled for your system
-const initialNodes = [
-  {
-    id: 'umber-1',
-    type: 'umber',
-    position: { x: 250, y: 100 },
-    data: { 
-      label: 'My Skincare', 
-      category: 'Beauty & Personal Care',
-      itemCount: 5 
-    },
-  },
-];
-
-const initialEdges = [];
-
 function MindMapFlow() {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const { mindMap, updateMindMapNodes } = useOnboarding();
+  const [localNodes, setLocalNodes] = useState([]);
+  const [localEdges, setLocalEdges] = useState([]);
   const connectingNodeId = useRef(null);
   const store = useStoreApi();
 
+  // Sync onboarding context with local state
+  React.useEffect(() => {
+    setLocalNodes(mindMap.nodes);
+    setLocalEdges(mindMap.edges);
+  }, [mindMap.nodes, mindMap.edges]);
+
   // Handle node changes (drag, select, etc.)
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
+    (changes) => {
+      const newNodes = applyNodeChanges(changes, localNodes);
+      setLocalNodes(newNodes);
+      // Update context with new positions
+      updateMindMapNodes(newNodes, localEdges);
+    },
+    [localNodes, localEdges, updateMindMapNodes]
   );
 
   // Handle edge changes
   const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    []
+    (changes) => {
+      const newEdges = applyEdgeChanges(changes, localEdges);
+      setLocalEdges(newEdges);
+      updateMindMapNodes(localNodes, newEdges);
+    },
+    [localNodes, localEdges, updateMindMapNodes]
   );
 
   // Handle new connections
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge({
-      ...params,
-      style: { 
-        stroke: 'var(--color-moss-600)', 
-        strokeWidth: 2,
-        opacity: 0.8
-      },
-      type: 'smoothstep',
-    }, eds)),
-    []
+    (params) => {
+      const newEdge = {
+        ...params,
+        style: { 
+          stroke: 'var(--color-moss-600)', 
+          strokeWidth: 2,
+          opacity: 0.8
+        },
+        type: 'smoothstep',
+      };
+      const newEdges = addEdge(newEdge, localEdges);
+      setLocalEdges(newEdges);
+      updateMindMapNodes(localNodes, newEdges);
+    },
+    [localNodes, localEdges, updateMindMapNodes]
   );
 
   // Start connection tracking
@@ -105,19 +111,23 @@ function MindMapFlow() {
           type: 'smoothstep',
         };
 
-        setNodes((nds) => [...nds, newNode]);
-        setEdges((eds) => [...eds, newEdge]);
+        const newNodes = [...localNodes, newNode];
+        const newEdges = [...localEdges, newEdge];
+        
+        setLocalNodes(newNodes);
+        setLocalEdges(newEdges);
+        updateMindMapNodes(newNodes, newEdges);
       }
     }
     
     connectingNodeId.current = null;
-  }, [store]);
+  }, [store, localNodes, localEdges, updateMindMapNodes]);
 
   return (
     <div className="w-full h-full">
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={localNodes}
+        edges={localEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
