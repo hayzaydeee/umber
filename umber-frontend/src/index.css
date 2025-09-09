@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+/* Modern Tailwind v4 Dark Mode Configuration */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Umber Design System Theme */
 @theme {
   --color-umber-50: #F7F6F4;
@@ -48,7 +51,13 @@ body {
   font-family: var(--font-family-body);
   line-height: 1.6;
   color: var(--color-umber-900);
-  background-color: var(--color-umber-100);
+  background-color: var(--color-umber-50);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.dark body {
+  color: var(--color-umber-50);
+  background-color: var(--color-umber-900);
 }
 
 h1, h2, h3, h4, h5, h6 {

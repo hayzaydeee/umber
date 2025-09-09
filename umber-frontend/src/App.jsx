@@ -5,21 +5,28 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import OAuthCompletion from './pages/OAuthCompletion';
 import Dashboard from './pages/Dashboard';
+import OnboardingExperience from './components/onboarding/OnboardingExperience';
+import { OnboardingProvider } from './contexts/OnboardingContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <Router>
-      <div className="w-full min-h-screen">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/oauth-completion" element={<OAuthCompletion />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </div>
-    </Router>
+    <ThemeProvider>
+      <OnboardingProvider>
+        <Router>
+          <div className="w-full min-h-screen">
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/oauth-completion" element={<OAuthCompletion />} />
+            <Route path="/dashboard" element={<OnboardingExperience />} />
+          </Routes>
+        </div>
+      </Router>
+      </OnboardingProvider>
+    </ThemeProvider>
   )
 }
 

@@ -115,11 +115,11 @@ function ContactForm({ onSuccess, onClose }) {
           transition={{ delay: 0.2 }}
         >
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            <UmberText>Message sent successfully!</UmberText>
+            <UmberText>message sent successfully!</UmberText>
           </h3>
           <p className="text-gray-600">
             <UmberText>
-              Thank you for reaching out. We'll get back to you within 24 hours.
+              thank you for reaching out. we'll get back to you as soon as possible.
             </UmberText>
           </p>
         </motion.div>
@@ -131,11 +131,11 @@ function ContactForm({ onSuccess, onClose }) {
     <div className="p-6">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-umber-800 mb-2">
-          <UmberText>Get in touch</UmberText>
+          <UmberText>get in touch</UmberText>
         </h3>
         <p className="text-umber-600 text-sm">
           <UmberText>
-            Have questions about contemplative commerce? We'd love to hear from you.
+            have questions for us? we'd love to hear from you.
           </UmberText>
         </p>
       </div>
@@ -144,7 +144,7 @@ function ContactForm({ onSuccess, onClose }) {
         {/* Name Field */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-umber-700 mb-1">
-            <UmberText>Name</UmberText>
+            <UmberText>name</UmberText>
           </label>
           <div className="relative">
             <PersonIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-umber-400 w-4 h-4" />
@@ -174,7 +174,7 @@ function ContactForm({ onSuccess, onClose }) {
         {/* Email Field */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-umber-700 mb-1">
-            <UmberText>Email</UmberText>
+            <UmberText>email</UmberText>
           </label>
           <div className="relative">
             <EnvelopeClosedIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-umber-400 w-4 h-4" />
@@ -204,7 +204,7 @@ function ContactForm({ onSuccess, onClose }) {
         {/* Subject Field */}
         <div>
           <label htmlFor="subject" className="block text-sm font-medium text-umber-700 mb-1">
-            <UmberText>Subject</UmberText>
+            <UmberText>subject</UmberText>
           </label>
           <div className="relative">
             <ChatBubbleIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-umber-400 w-4 h-4" />
@@ -234,7 +234,7 @@ function ContactForm({ onSuccess, onClose }) {
         {/* Message Field */}
         <div>
           <label htmlFor="message" className="block text-sm font-medium text-umber-700 mb-1">
-            <UmberText>Message</UmberText>
+            <UmberText>message</UmberText>
           </label>
           <textarea
             id="message"
@@ -277,12 +277,12 @@ function ContactForm({ onSuccess, onClose }) {
             {isSubmitting ? (
               <>
                 <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-                <UmberText>Sending...</UmberText>
+                <UmberText>sending...</UmberText>
               </>
             ) : (
               <>
                 <PaperPlaneIcon className="w-4 h-4" />
-                <UmberText>Send message</UmberText>
+                <UmberText>send message</UmberText>
               </>
             )}
           </motion.button>

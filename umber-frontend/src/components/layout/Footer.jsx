@@ -73,9 +73,7 @@ function Footer() {
   ];
 
   const socialLinks = [
-    { icon: TwitterLogoIcon, href: "https://twitter.com/umberapp", label: "Twitter" },
     { icon: InstagramLogoIcon, href: "https://instagram.com/umberapp", label: "Instagram" },
-    { icon: LinkedInLogoIcon, href: "https://linkedin.com/company/umberapp", label: "LinkedIn" },
     { icon: GitHubLogoIcon, href: "https://github.com/umberapp", label: "GitHub" }
   ];
 
