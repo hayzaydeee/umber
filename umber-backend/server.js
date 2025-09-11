@@ -39,6 +39,7 @@ app.get('/api/health', (req, res) => {
 
 // Routes
 app.use('/api/auth', require('./src/routes/auth'));
+app.use('/api/magic-auth', require('./src/routes/magicAuth')); // New magic link auth routes
 app.use('/api/umbers', require('./src/routes/umbers'));
 app.use('/api/nests', require('./src/routes/nests'));
 app.use('/api/items', require('./src/routes/items'));

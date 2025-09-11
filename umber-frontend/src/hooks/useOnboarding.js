@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { authApi } from '../api';
-import { useAuth } from './useAuth';
+import { useAuth } from './useAuth.jsx';
 
 export const useOnboarding = () => {
   const { user, updateOnboardingProgress: updateAuthProgress } = useAuth();

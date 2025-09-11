@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   },
   password: { 
     type: String, 
-    required: true,
+    required: false, // Making optional for migration period
     minlength: 6
   },
   name: { 
@@ -19,6 +19,29 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  
+  // Magic Link Authentication fields
+  emailVerified: { 
+    type: Boolean, 
+    default: false 
+  },
+  magicLinkToken: { 
+    type: String 
+  },
+  magicLinkExpires: { 
+    type: Date 
+  },
+  lastLoginIP: { 
+    type: String 
+  },
+  loginAttempts: { 
+    type: Number, 
+    default: 0 
+  },
+  lastAttempt: { 
+    type: Date 
+  },
+  
   // Onboarding tracking
   onboardingCompleted: { 
     type: Boolean, 
