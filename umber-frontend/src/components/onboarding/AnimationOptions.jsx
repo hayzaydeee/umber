@@ -193,34 +193,25 @@ export const CollaborativeWritingSequence = ({
       text: `welcome ${userName}, to umber!`, 
       style: 'text-7xl font-bold text-umber-700 dark:text-umber-200 font-family-display',
       cursorColor: 'border-umber-600',
-      typingSpeed: 70,
+      typingSpeed: 80,
       pauseAfter: 800
     },
     { 
       writer: 'system', 
-      text: `we're here to help you understand why you want what you want,`, 
-      style: 'text-5xl font-light text-umber-600 dark:text-umber-300 mb-1',
+      text: `we're here to help your future self thank you`, 
+      style: 'text-5xl font-light text-umber-600 dark:text-umber-300',
       cursorColor: 'border-umber-600',
-      typingSpeed: 50,
+      typingSpeed: 60,
       pauseAfter: 1000,
       indent: ''
     },
     { 
       writer: 'system', 
-      text: `and just to make your wishlisting look better, you know?`, 
-      style: 'text-4xl font-light text-umber-600 dark:text-umber-300',
-      cursorColor: 'border-umber-600',
-      typingSpeed: 50,
-      pauseAfter: 1000,
-      indent: ''
-    },
-    { 
-      writer: 'system', 
-      text: `let's build your space together, shall we?`, 
+      text: `let's build your space together`, 
       style: 'text-3xl font-medium text-umber-700 dark:text-umber-200',
       cursorColor: 'border-umber-600',
       typingSpeed: 70,
-      pauseAfter: 1000,
+      pauseAfter: 1200,
       indent: ''
     }
   ];
