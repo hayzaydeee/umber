@@ -285,6 +285,8 @@ export const CollaborativeWritingSequence = ({
 
       setTimeout(() => {
         setCurrentCharIndex((prev) => prev + 1);
+        // Continue typing the current writer
+        typeCurrentWriter();
       }, currentWriter.typingSpeed);
     } else {
       // Current writer finished
@@ -298,11 +300,16 @@ export const CollaborativeWritingSequence = ({
 
       setTimeout(() => {
         if (currentWriterIndex < collaborativeSequence.length - 1) {
+          console.log('🖋️ Moving to next writer:', currentWriterIndex + 1);
           setCurrentWriterIndex((prev) => prev + 1);
           setCurrentCharIndex(0);
+          // Start typing the next writer
+          setTimeout(() => typeCurrentWriter(), 100);
         } else {
           // All writers finished
+          console.log('🖋️ All writers finished, calling onComplete in 1000ms');
           setTimeout(() => {
+            console.log('🖋️ Calling onComplete now');
             if (onComplete) onComplete();
           }, 1000);
         }
@@ -310,12 +317,11 @@ export const CollaborativeWritingSequence = ({
     }
   };
 
-  // Initialize collaborative writing
+  // Initialize collaborative writing once on mount
   useEffect(() => {
-    if (currentWriterIndex < collaborativeSequence.length) {
-      typeCurrentWriter();
-    }
-  }, [currentCharIndex, currentWriterIndex]);
+    console.log('🖋️ CollaborativeWriting mounted, starting animation');
+    typeCurrentWriter();
+  }, []); // Empty dependency array - only run once on mount
 
   const getCursorForLine = (lineIndex) => {
     const line = lines[lineIndex];

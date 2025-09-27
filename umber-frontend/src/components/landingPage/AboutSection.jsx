@@ -85,7 +85,7 @@ function AboutSection() {
                   do it for your focus, and your finances.
                 </p>
               <p className="text-lg leading-relaxed">
-                  the name "umber" represents the earth-toned, grounded approach
+                  the name "umber" represents the grounded approach
                   we take to consumption - natural, considered, and beautiful.
               </p>
             </div>

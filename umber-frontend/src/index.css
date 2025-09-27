@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+/* React Flow Base Styles - Required */
+@import '@xyflow/react/dist/style.css';
+
 /* Modern Tailwind v4 Dark Mode Configuration */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -63,4 +66,142 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-display);
   line-height: 1.2;
+}
+
+/* ============================================
+   React Flow Custom Styling
+   ============================================ */
+
+/* Mind Map Canvas Container */
+.mind-map-canvas {
+  background: linear-gradient(135deg, #F2F4F2 0%, #F7F6F4 50%, #FBF8F3 100%);
+}
+
+/* Custom React Flow Variables for Umber Theme */
+.react-flow {
+  --xy-edge-stroke-default: #6B7D67;
+  --xy-edge-stroke-width-default: 2;
+  --xy-edge-stroke-selected-default: #5B6F57;
+  --xy-connectionline-stroke-default: #6B7D67;
+  --xy-connectionline-stroke-width-default: 2;
+  --xy-node-color-default: #2A2A24;
+  --xy-node-border-default: 2px solid #C8BCA8;
+  --xy-node-background-color-default: #F7F6F4;
+  --xy-node-boxshadow-hover-default: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --xy-node-boxshadow-selected-default: 0 0 0 3px rgba(107, 125, 103, 0.3);
+  --xy-handle-background-color-default: #6B7D67;
+  --xy-handle-border-color-default: #F7F6F4;
+  --xy-controls-button-background-color-default: rgba(255, 255, 255, 0.9);
+  --xy-controls-button-background-color-hover-default: #F7F6F4;
+  --xy-controls-button-color-default: #2A2A24;
+  --xy-controls-button-border-color-default: #C8BCA8;
+  --xy-controls-box-shadow-default: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --xy-minimap-background-color-default: rgba(255, 255, 255, 0.9);
+  --xy-background-pattern-dots-color-default: #C8BCA8;
+  --xy-background-pattern-line-color-default: #DDD7CC;
+}
+
+/* React Flow Controls Styling */
+.react-flow__controls {
+  border-radius: 12px !important;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.react-flow__controls-button {
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--color-umber-200) !important;
+  transition: all 0.2s ease;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls-button:hover {
+  background-color: var(--color-moss-50) !important;
+  color: var(--color-moss-700) !important;
+}
+
+/* React Flow MiniMap Styling */
+.react-flow__minimap {
+  border-radius: 12px !important;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-umber-200) !important;
+}
+
+/* React Flow Attribution */
+.react-flow__attribution {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: var(--color-umber-600) !important;
+  border-radius: 8px !important;
+  padding: 4px 8px !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(4px);
+}
+
+/* React Flow Edge Animations */
+@keyframes edge-flow {
+  0% {
+    stroke-dashoffset: 10;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.react-flow__edge.animated {
+  animation: edge-flow 1s ease-in-out infinite;
+}
+
+/* Custom Node Styling */
+.react-flow__node {
+  font-family: var(--font-family-body);
+}
+
+.react-flow__node-umber {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Disable text selection in React Flow */
+.react-flow__pane {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Connection line styling */
+.react-flow__connection-path {
+  stroke: var(--color-moss-500);
+  stroke-width: 2;
+  stroke-dasharray: 5,5;
+  animation: edge-flow 1s ease-in-out infinite;
+}
+
+/* Selection styling */
+.react-flow__selection {
+  background: rgba(107, 125, 103, 0.1) !important;
+  border: 2px dashed var(--color-moss-500) !important;
+}
+
+/* Dark mode support for React Flow */
+.dark .react-flow {
+  --xy-node-background-color-default: #2A2A24;
+  --xy-node-color-default: #F7F6F4;
+  --xy-node-border-default: 2px solid #535147;
+  --xy-edge-stroke-default: #A8B8A4;
+  --xy-edge-stroke-selected-default: #C9D2C7;
+  --xy-controls-button-background-color-default: rgba(42, 42, 36, 0.9);
+  --xy-controls-button-color-default: #F7F6F4;
+  --xy-minimap-background-color-default: rgba(42, 42, 36, 0.9);
+  --xy-background-pattern-dots-color-default: #535147;
+  --xy-background-pattern-line-color-default: #3F3E37;
+}
+
+.dark .mind-map-canvas {
+  background: linear-gradient(135deg, #242622 0%, #2A2A24 50%, #3A2A1A 100%);
 }
