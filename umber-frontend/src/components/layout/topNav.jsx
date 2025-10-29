@@ -6,9 +6,12 @@ import Button from "../ui/Button";
 import UmberText from "../ui/UmberText";
 import Modal from "../ui/Modal";
 import ContactForm from "../forms/ContactForm";
+import { ThemeToggle } from "../../contexts/ThemeContext";
+import { useAuth } from "../../hooks/useAuth";
 
 function TopNav({ show = true }) {
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout, loading } = useAuth();
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -22,6 +25,12 @@ function TopNav({ show = true }) {
   const handleContactSuccess = (formData) => {
     console.log("Contact form submitted:", formData);
     // Here you would typically send the data to your backend
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setMobileMenuOpen(false);
   };
 
   const navItems = [
@@ -103,24 +112,42 @@ function TopNav({ show = true }) {
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
+              <ThemeToggle className="p-2" />
+              
               {/* Tablet Auth Buttons (hidden on mobile, shown on tablet) */}
               <div className="hidden md:flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => navigate("/login")}
-                  className="text-umber-700 hover:text-umber-900 px-3 py-1.5"
-                >
-                  log in
-                </Button>
-                <Button
-                  variant="contemplative"
-                  size="sm"
-                  onClick={() => navigate("/signup")}
-                  className="px-3 py-1.5"
-                >
-                  <UmberText>sign up</UmberText>
-                </Button>
+                {loading ? (
+                  <div className="w-6 h-6 animate-spin border-2 border-moss-500 border-t-transparent rounded-full" />
+                ) : isAuthenticated ? (
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate("/dashboard")}
+                      className="text-umber-700 hover:text-umber-900 px-3 py-1.5"
+                    >
+                      dashboard
+                    </Button>
+                    <Button
+                      variant="contemplative"
+                      size="sm"
+                      onClick={handleLogout}
+                      className="px-3 py-1.5"
+                    >
+                      <UmberText>log out</UmberText>
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    variant="contemplative"
+                    size="sm"
+                    onClick={() => navigate("/auth")}
+                    className="px-3 py-1.5"
+                  >
+                    <UmberText>get started</UmberText>
+                  </Button>
+                )}
               </div>
 
               {/* Mobile Menu Toggle */}
@@ -175,22 +202,40 @@ function TopNav({ show = true }) {
 
             {/* Desktop Auth Buttons */}
             <div className="flex items-center justify-end gap-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => navigate("/login")}
-                className="text-umber-700 hover:text-umber-900 px-4 py-2"
-              >
-                log in
-              </Button>
-              <Button
-                variant="contemplative"
-                size="sm"
-                onClick={() => navigate("/signup")}
-                className="px-4 py-2"
-              >
-                <UmberText>sign up</UmberText>
-              </Button>
+              {/* Theme Toggle */}
+              <ThemeToggle />
+              
+              {loading ? (
+                <div className="w-8 h-8 animate-spin border-2 border-moss-500 border-t-transparent rounded-full" />
+              ) : isAuthenticated ? (
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate("/dashboard")}
+                    className="text-umber-700 hover:text-umber-900 px-4 py-2"
+                  >
+                    dashboard
+                  </Button>
+                  <Button
+                    variant="contemplative"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="px-4 py-2"
+                  >
+                    <UmberText>log out</UmberText>
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant="contemplative"
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                  className="px-4 py-2"
+                >
+                  <UmberText>get started</UmberText>
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -256,28 +301,50 @@ function TopNav({ show = true }) {
 
                 {/* Mobile Auth Buttons (only show on actual mobile, not tablet) */}
                 <div className="space-y-3 md:hidden">
-                  <Button
-                    variant="outline"
-                    size="md"
-                    onClick={() => {
-                      navigate("/login");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-umber-700 hover:text-umber-900 py-2.5"
-                  >
-                    log in
-                  </Button>
-                  <Button
-                    variant="contemplative"
-                    size="md"
-                    onClick={() => {
-                      navigate("/signup");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full py-2.5"
-                  >
-                    <UmberText>sign up</UmberText>
-                  </Button>
+                  {/* Theme Toggle in Mobile Menu */}
+                  <div className="flex justify-center pb-3">
+                    <ThemeToggle />
+                  </div>
+                  
+                  {loading ? (
+                    <div className="flex justify-center py-4">
+                      <div className="w-6 h-6 animate-spin border-2 border-moss-500 border-t-transparent rounded-full" />
+                    </div>
+                  ) : isAuthenticated ? (
+                    <div className="space-y-3">
+                      <Button
+                        variant="outline"
+                        size="md"
+                        onClick={() => {
+                          navigate("/dashboard");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-umber-700 hover:text-umber-900 py-2.5"
+                      >
+                        dashboard
+                      </Button>
+                      <Button
+                        variant="contemplative"
+                        size="md"
+                        onClick={handleLogout}
+                        className="w-full py-2.5"
+                      >
+                        <UmberText>log out</UmberText>
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="contemplative"
+                      size="md"
+                      onClick={() => {
+                        navigate("/auth");
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full py-2.5"
+                    >
+                      <UmberText>get started</UmberText>
+                    </Button>
+                  )}
                 </div>
               </div>
             </motion.div>

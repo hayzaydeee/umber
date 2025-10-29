@@ -187,6 +187,7 @@ function UmberNode({ id, data, selected }) {
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.3, type: "spring" }}
+        data-element={data?.isUmber ? "umber-node" : undefined}
       >
         {/* Node content */}
         <div className="flex items-center space-x-2 relative z-10">

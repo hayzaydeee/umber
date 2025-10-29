@@ -68,7 +68,7 @@ function CTASection() {
               <Button
                 variant="contemplative"
                 size="lg"
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate('/auth')}
                 className="group bg-gradient-to-r from-ochre-500 to-ochre-600 hover:from-ochre-600 hover:to-ochre-700 text-white border-none shadow-xl"
               >
                 <UmberText>start free today</UmberText>

@@ -63,35 +63,51 @@ const ActionCard = () => {
         console.log('🚀 Creating umber via API:', umberData);
         const result = await umbersApi.createUmber(umberData);
         
-        if (result.success) {
-          console.log('✅ Umber created successfully:', result.data);
+        console.log('🔍 Umber API result:', result);
+        
+        // Check if umber creation was successful - backend returns {message, umber}
+        if (result.umber && result.message) {
+          console.log('✅ Umber created successfully:', result.umber);
           // Trigger mind map refresh
           triggerMindMapRefresh();
           send('UMBER_CREATED', { 
-            umber: result.data, // Store the full umber object with ID
+            umber: result.umber, // Store the full umber object with ID
             formData: data // Keep original form data for reference
           });
         } else {
-          console.error('❌ Failed to create umber:', result.error);
-          // Still transition for demo purposes, but log the error
-          send('UMBER_CREATED', { umber: data });
+          console.error('❌ Failed to create umber:', { 
+            error: result.error, 
+            message: result.message,
+            fullResult: result 
+          });
+          // Don't proceed with onboarding if umber creation actually failed
+          return;
         }
       } catch (error) {
         console.error('❌ Error creating umber:', error);
         // Still transition for demo purposes, but log the error
         send('UMBER_CREATED', { umber: data });
+      } finally {
+        setIsTransitioning(false);
       }
     },
-    onSidebarExplained: () => send('SIDEBAR_EXPLAINED'),
+    onSidebarExplained: () => {
+      console.log('🎯 ActionCard: onSidebarExplained callback triggered, current state:', flowState);
+      send('SIDEBAR_EXPLAINED');
+    },
     onDragDetected: () => send('DRAG_DETECTED'),
     onNestCreated: async (data) => {
       console.log('📝 Nest form submitted:', data);
       
       try {
         // Get the created umber ID from context
-        const createdUmber = context?.umber;
+        console.log('🔍 Flow context for nest creation:', flowContext);
+        console.log('🔍 createdEntities:', flowContext?.createdEntities);
+        
+        const createdUmber = flowContext?.createdEntities?.umber;
         if (!createdUmber?._id) {
           console.error('❌ No umber ID found in context for nest creation');
+          console.error('❌ Available context:', flowContext);
           send('NEST_CREATED', { nest: data });
           return;
         }
@@ -105,13 +121,29 @@ const ActionCard = () => {
         
         console.log('🚀 Creating nest via API:', nestData);
         const result = await nestsApi.createNest(nestData);
+        console.log('🔍 Nest API result:', result);
         
-        if (result.success) {
-          console.log('✅ Nest created successfully:', result.data);
-          triggerMindMapRefresh();
-          send('NEST_CREATED', { nest: result.data });
+        // Check if nest creation was successful - backend returns {message, nest}
+        if (result && result.nest && result.message) {
+          console.log('✅ Nest created successfully:', result.nest);
+          
+          // Add nest to mind map immediately for better UX
+          if (window.addNestToMindMap && window.pendingConnection) {
+            window.addNestToMindMap(
+              result.nest, 
+              window.pendingConnection.parentNodeId,
+              window.pendingConnection.position
+            );
+            // Clean up pending connection
+            delete window.pendingConnection;
+          } else {
+            // Fallback: refresh mind map data
+            triggerMindMapRefresh();
+          }
+          
+          send('NEST_CREATED', { nest: result.nest });
         } else {
-          console.error('❌ Failed to create nest:', result.error);
+          console.error('❌ Failed to create nest:', result.error || 'Unknown error');
           send('NEST_CREATED', { nest: data });
         }
       } catch (error) {
@@ -162,7 +194,7 @@ const ActionCard = () => {
     onToolsExplained: () => send('TOOLS_EXPLAINED'),
     onStartMasteryTour: () => send('START_MASTERY_TOUR'),
     onCompleteOnboarding: () => send('COMPLETE_ONBOARDING')
-  }), [send, isTransitioning, flowState]);
+  }), [send, isTransitioning, flowState, flowContext]);
 
   // ActionCard configuration for each flow state
   const stateConfigs = useMemo(() => ({
@@ -316,6 +348,14 @@ const ActionCard = () => {
       },
       position: 'center',
       size: 'large'
+    },
+    
+    finished: {
+      // No component - this is a final state, ActionCard should hide
+      component: null,
+      props: {},
+      position: 'center',
+      size: 'medium'
     }
     
   }), [flowState, flowContext, callbacks]);
@@ -343,6 +383,12 @@ const ActionCard = () => {
   const Component = currentConfig.component;
   const position = elements.actionCard.position || currentConfig.position;
   const size = elements.actionCard.size || currentConfig.size;
+
+  // Handle finished state - don't render anything
+  if (!Component) {
+    console.log('🏁 ActionCard: Finished state reached, hiding ActionCard');
+    return null;
+  }
 
   // Don't render if ActionCard should be hidden
   if (!elements.actionCard.visible) {

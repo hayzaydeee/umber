@@ -1,15 +1,30 @@
 import apiClient, { handleApiResponse, handleApiError, setAuthToken } from './client';
 
 export const authApi = {
-  // Register new user
-  register: async (userData) => {
+  // Send magic link (replaces both register and login)
+  sendMagicLink: async (email, name = null) => {
     try {
-      const response = await apiClient.post('/auth/register', userData);
+      const response = await apiClient.post('/magic-auth/send-magic-link', { 
+        email, 
+        name 
+      });
+      return handleApiResponse(response);
+    } catch (error) {
+      handleApiError(error);
+    }
+  },
+
+  // Verify magic link token
+  verifyMagicLink: async (token) => {
+    try {
+      const response = await apiClient.post('/magic-auth/verify-magic-link', { 
+        token 
+      });
       const data = handleApiResponse(response);
       
-      // Set auth token if registration is successful
-      if (data.token) {
-        setAuthToken(data.token);
+      // Set auth token if verification is successful
+      if (data.authToken) {
+        setAuthToken(data.authToken);
       }
       
       return data;
@@ -18,18 +33,28 @@ export const authApi = {
     }
   },
 
-  // Login user
+  // Legacy register method (for compatibility) - now uses magic links
+  register: async (userData) => {
+    try {
+      const { email, name } = userData;
+      const response = await apiClient.post('/magic-auth/send-magic-link', { 
+        email, 
+        name 
+      });
+      return handleApiResponse(response);
+    } catch (error) {
+      handleApiError(error);
+    }
+  },
+
+  // Legacy login method (for compatibility) - now uses magic links  
   login: async (credentials) => {
     try {
-      const response = await apiClient.post('/auth/login', credentials);
-      const data = handleApiResponse(response);
-      
-      // Set auth token if login is successful
-      if (data.token) {
-        setAuthToken(data.token);
-      }
-      
-      return data;
+      const { email } = credentials;
+      const response = await apiClient.post('/magic-auth/send-magic-link', { 
+        email 
+      });
+      return handleApiResponse(response);
     } catch (error) {
       handleApiError(error);
     }
@@ -118,5 +143,10 @@ export const authApi = {
   // Check if user is authenticated
   isAuthenticated: () => {
     return !!localStorage.getItem('umber_token');
+  },
+
+  // Set auth token (exposed from client)
+  setAuthToken: (token) => {
+    setAuthToken(token);
   }
 };

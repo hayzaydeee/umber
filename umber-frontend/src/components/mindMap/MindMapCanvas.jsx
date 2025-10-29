@@ -24,6 +24,7 @@ import MindMapToolbar from './MindMapToolbar';
 import NodeDetailsPanel from './NodeDetailsPanel';
 import { useMindMapData } from '../../hooks/useMindMapData';
 import { useUIState } from '../../contexts/UIContext';
+import { useFlowMachine } from '../../contexts/FlowMachineContext';
 
 // Node and edge types for React Flow
 const nodeTypes = {
@@ -51,6 +52,7 @@ const defaultViewport = { x: 0, y: 0, zoom: 1 };
 function MindMapCanvas() {
   const { data: mindMapData, loading, error, refreshData } = useMindMapData();
   const { elements } = useUIState();
+  const { state: flowState, send } = useFlowMachine();
   
   // React Flow state
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -84,6 +86,47 @@ function MindMapCanvas() {
       setSelectedNodes(selectedNodes);
     },
   });
+
+  // Function to add nest node to mind map (for onboarding integration)
+  const addNestNode = useCallback((nestData, parentUmberId, position) => {
+    const nestNode = {
+      id: nestData._id,
+      type: 'umber',
+      position: position || { x: 300, y: 300 },
+      data: {
+        label: nestData.name,
+        description: nestData.description || '',
+        totalItems: nestData.totalItems || 0,
+        parentUmber: parentUmberId,
+        isNest: true,
+      },
+      draggable: true,
+      selectable: true,
+      parentNode: parentUmberId,
+    };
+
+    const nestEdge = {
+      id: `${parentUmberId}-${nestData._id}`,
+      source: parentUmberId,
+      target: nestData._id,
+      type: 'umber',
+      animated: false,
+      style: { stroke: '#6B7D67', strokeWidth: 2 },
+    };
+
+    setNodes(nds => [...nds, nestNode]);
+    setEdges(eds => [...eds, nestEdge]);
+    
+    console.log('🎯 MindMap: Added nest node to mind map:', nestData);
+  }, [setNodes, setEdges]);
+
+  // Expose addNestNode globally for onboarding integration
+  useEffect(() => {
+    window.addNestToMindMap = addNestNode;
+    return () => {
+      delete window.addNestToMindMap;
+    };
+  }, [addNestNode]);
 
   // Transform API data into React Flow nodes and edges
   const transformMindMapData = useCallback((data) => {
@@ -181,13 +224,29 @@ function MindMapCanvas() {
   // Handle connection events for creating new relationships
   const onConnectStart = useCallback((_, { nodeId }) => {
     connectingNodeId.current = nodeId;
-  }, []);
+    
+    // Trigger onboarding drag detection
+    if (flowState === 'nestCreationIntro') {
+      console.log('🎯 MindMap: Drag detected during nest creation onboarding from node:', nodeId);
+      send('DRAG_DETECTED');
+    } else if (flowState === 'itemCreationIntro') {
+      // For item creation, only allow dragging from nest nodes
+      const { nodeLookup } = store.getState();
+      const draggedNode = nodeLookup.get(nodeId);
+      
+      if (draggedNode?.data?.isNest) {
+        console.log('🎯 MindMap: Drag detected from nest node during item creation onboarding:', nodeId);
+        send('DRAG_DETECTED');
+      } else {
+        console.log('🚫 MindMap: Ignoring drag from non-nest node during item creation:', nodeId);
+      }
+    }
+  }, [flowState, send, store]);
 
   const onConnectEnd = useCallback((event) => {
     const targetIsPane = event.target.classList.contains('react-flow__pane');
     
     if (targetIsPane && connectingNodeId.current) {
-      // Create new umber at dropped position
       const { nodeLookup } = store.getState();
       const parentNode = nodeLookup.get(connectingNodeId.current);
       
@@ -198,6 +257,19 @@ function MindMapCanvas() {
           y: event.clientY - reactFlowBounds.top,
         });
 
+        // During onboarding, don't create the node immediately - let the form handle it
+        if (flowState === 'nestCreationForm') {
+          console.log('🎯 MindMap: Connection completed during onboarding nest creation');
+          // Store the connection info for the form to use
+          window.pendingConnection = {
+            parentNodeId: connectingNodeId.current,
+            parentNode,
+            position
+          };
+          return;
+        }
+
+        // Normal mode: create new umber immediately
         const newNodeId = `new-${Date.now()}`;
         const newNode = {
           id: newNodeId,

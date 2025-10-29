@@ -20,7 +20,20 @@ const umberSchema = new mongoose.Schema({
   color: { 
     type: String, 
     default: '#8B5A2B',
-    match: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    validate: {
+      validator: function(v) {
+        // Accept hex codes
+        if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(v)) {
+          return true;
+        }
+        // Accept theme color names
+        const themeColors = [
+          'umber', 'moss', 'ochre', 'sage', 'earth', 'clay', 'forest', 'stone'
+        ];
+        return themeColors.includes(v.toLowerCase());
+      },
+      message: 'Color must be a valid hex code (e.g., #8B5A2B) or theme name (umber, moss, ochre, sage, earth, clay, forest, stone)'
+    }
   },
   theme: {
     type: String,
@@ -82,6 +95,28 @@ umberSchema.index({ userId: 1, isDeleted: 1 });
 umberSchema.index({ name: 'text', description: 'text' });
 umberSchema.index({ tags: 1 });
 umberSchema.index({ category: 1 });
+
+// Pre-save hook to convert theme color names to hex codes
+umberSchema.pre('save', function(next) {
+  if (this.isModified('color')) {
+    const colorMap = {
+      'umber': '#8B5A2B',
+      'moss': '#6B7D67',
+      'ochre': '#B8915F',
+      'sage': '#A8B8A4',
+      'earth': '#7A5D36',
+      'clay': '#CDA47D',
+      'forest': '#485449',
+      'stone': '#C8BCA8'
+    };
+    
+    const colorKey = this.color.toLowerCase();
+    if (colorMap[colorKey]) {
+      this.color = colorMap[colorKey];
+    }
+  }
+  next();
+});
 
 // Virtual for nested relationships
 umberSchema.virtual('nests', {

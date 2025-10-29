@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import Button from '../../ui/Button';
 import UmberText from '../../ui/UmberText';
 import { useUmbers } from '../../../hooks/useUmbers';
-import { useNests } from '../../../hooks/useNests';
-import { useItems } from '../../../hooks/useItems';
 
 const FormPreviewCard = ({ 
   title,
@@ -28,8 +26,6 @@ const FormPreviewCard = ({
 
   // API hooks
   const { createUmber } = useUmbers();
-  const { createNest } = useNests();
-  const { createItem } = useItems();
 
   // Form configurations for each type
   const formConfigs = {
@@ -132,20 +128,21 @@ const FormPreviewCard = ({
       
       switch (formType) {
         case 'umber':
+          // Handle umber creation directly since it doesn't need context
           result = await createUmber(formData);
+          console.log(`✅ ${formType} created:`, result);
+          onFormSubmit(result);
           break;
         case 'nest':
-          result = await createNest(formData);
-          break;
         case 'item':
-          result = await createItem(formData);
+          // For nest and item creation, pass form data to callback
+          // The callback will handle API call with proper context (umberId, etc.)
+          console.log(`📝 ${formType} form data:`, formData);
+          onFormSubmit(formData);
           break;
         default:
           throw new Error(`Unknown form type: ${formType}`);
       }
-
-      console.log(`✅ ${formType} created:`, result);
-      onFormSubmit(result);
       
     } catch (error) {
       console.error(`❌ Error creating ${formType}:`, error);

@@ -214,7 +214,7 @@ function FeaturesSection() {
           <Button 
             variant="contemplative"
             size="md"
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/auth')}}
             className="px-8 py-4"
           >
             <UmberText>try them out →</UmberText>

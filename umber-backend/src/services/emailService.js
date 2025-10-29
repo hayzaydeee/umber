@@ -333,7 +333,7 @@ class EmailService {
           
           <div class="footer-card">
             <p class="footer-text">
-              this email was sent by umber - your contemplative curation companion.<br>
+              this email was sent by umber<br>
               questions? reach out to us at <a href="mailto:hello@weareumber.com" class="footer-link">hello@weareumber.com</a>
             </p>
         

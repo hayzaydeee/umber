@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { HomeIcon, ArrowLeftIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import UmberText from '../components/ui/UmberText';
@@ -9,10 +9,21 @@ import AppSideNav from '../components/layout/AppSideNav';
 import { MindMapCanvas } from '../components/mindMap';
 import { useFlowMachine } from '../contexts/FlowMachineContext';
 import { useUIState } from '../contexts/UIContext';
+import { ThemeToggle } from '../contexts/ThemeContext';
+import { useAuth } from '../hooks/useAuth';
 
 function Dashboard() {
   const { state: flowState, context } = useFlowMachine();
   const { elements } = useUIState();
+  const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect unauthenticated users to auth page
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      navigate('/auth');
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   // Debug logging
   console.log('📱 Dashboard render:', {
@@ -22,12 +33,40 @@ function Dashboard() {
   });
 
   // Check if we're in onboarding mode
-  const isOnboarding = flowState !== 'completed';
-  const showMindMap = flowState === 'completed' || (
+  const isOnboarding = flowState !== 'finished';
+  const showMindMap = flowState === 'finished' || (
     // Show mind map during onboarding after umber creation
     ['umberCreationSuccess', 'nestCreationIntro', 'nestCreationForm', 'nestCreationSuccess', 
      'itemCreationIntro', 'itemCreationForm', 'itemCreationSuccess', 'toolsIntro'].includes(flowState)
   );
+  
+  // Debug overlay state
+  const isInteractiveStep = ['nestCreationIntro', 'itemCreationIntro'].includes(flowState);
+  const showOverlay = isOnboarding && elements.actionCard.visible && !isInteractiveStep;
+  console.log('🎨 Dashboard overlay state:', { 
+    isOnboarding, 
+    actionCardVisible: elements.actionCard.visible, 
+    flowState, 
+    isInteractiveStep, 
+    showOverlay 
+  });
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-moss-50 via-white to-ochre-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-moss-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-umber-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-moss-50 via-white to-ochre-50">
@@ -37,8 +76,8 @@ function Dashboard() {
       {/* App Sidebar */}
       <AppSideNav />
       
-      {/* Background Overlay when onboarding */}
-      {isOnboarding && elements.actionCard.visible && (
+      {/* Background Overlay when onboarding (hidden during interactive steps) */}
+      {showOverlay && (
         <div 
           className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9998]"
           style={{ pointerEvents: 'auto' }}
@@ -58,7 +97,8 @@ function Dashboard() {
                 <span>Mind Map View</span>
               </div>
             )}
-            <Link to="/">
+            <ThemeToggle />
+            <Link to="/?force=true">
               <Button variant="outline" size="sm">
                 <ArrowLeftIcon className="w-4 h-4 mr-2" />
                 <UmberText>Back to home</UmberText>

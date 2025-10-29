@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useReducer, useEffect, useState, useMemo } from 'react';
 
 // Simple event bus for cross-component communication
 class EventBus {
@@ -128,6 +128,7 @@ const createFlowMachine = (config) => {
     get context() { return context; },
     
     send(event, payload) {
+      console.log(`🎯 FlowMachine: Received event '${event}' in state '${currentState}'`, { payload });
       const stateConfig = config.states[currentState];
       const transition = stateConfig?.on?.[event];
       
@@ -198,17 +199,33 @@ const createFlowMachine = (config) => {
 const FlowMachineContext = createContext();
 
 export const FlowMachineProvider = ({ children }) => {
-  const machine = createFlowMachine(onboardingFlowConfig);
+  const [machine] = useState(() => createFlowMachine(onboardingFlowConfig));
+  const [machineState, setMachineState] = useState(machine.state);
+  const [machineContext, setMachineContext] = useState(machine.context);
   
-  // Debug: Log all state changes
+  // Subscribe to machine changes and update React state
   useEffect(() => {
-    return machine.subscribe((event) => {
+    const unsubscribe = machine.subscribe((event) => {
       console.log('🔄 Flow State Change:', event);
+      // Update React state to trigger re-renders
+      setMachineState(machine.state);
+      setMachineContext(machine.context);
     });
+    
+    return unsubscribe;
   }, [machine]);
   
+  // Create a wrapper that exposes React state instead of machine internals
+  const machineWrapper = useMemo(() => ({
+    state: machineState,
+    context: machineContext,
+    send: machine.send.bind(machine),
+    can: machine.can.bind(machine),
+    subscribe: machine.subscribe.bind(machine)
+  }), [machine, machineState, machineContext]);
+  
   return (
-    <FlowMachineContext.Provider value={machine}>
+    <FlowMachineContext.Provider value={machineWrapper}>
       {children}
     </FlowMachineContext.Provider>
   );

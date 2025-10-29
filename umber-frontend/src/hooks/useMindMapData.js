@@ -32,10 +32,11 @@ export function useMindMapData() {
       
       const result = await dashboardApi.getMindMapData();
       
-      if (result.success) {
-        setData(result.data);
+      // Backend returns data directly without success wrapper
+      if (result && result.mindMapData) {
+        setData(result);
       } else {
-        setError(result.error || 'Failed to fetch mind map data');
+        setError('Invalid mind map data structure');
       }
     } catch (err) {
       console.error('Mind map data fetch error:', err);

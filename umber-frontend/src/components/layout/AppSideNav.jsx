@@ -10,6 +10,7 @@ import {
   ArchiveIcon
 } from '@radix-ui/react-icons';
 import { useUIState } from '../../contexts/UIContext';
+import { ThemeToggle } from '../../contexts/ThemeContext';
 import UmberText from '../ui/UmberText';
 
 /**
@@ -61,18 +62,23 @@ function AppSideNav() {
         >
           {/* Header */}
           <div className="p-6 border-b border-umber-200">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-moss-500 to-moss-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-2xl font-display italic">u</span>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-moss-500 to-moss-600 rounded-xl flex items-center justify-center">
+                  <span className="text-white text-2xl font-display italic">u</span>
+                </div>
+                <div>
+                  <UmberText variant="h4" className="text-umber-800 font-semibold">
+                    umber
+                  </UmberText>
+                  <UmberText variant="small" className="text-umber-600">
+                    your curated space
+                  </UmberText>
+                </div>
               </div>
-              <div>
-                <UmberText variant="h4" className="text-umber-800 font-semibold">
-                  umber
-                </UmberText>
-                <UmberText variant="small" className="text-umber-600">
-                  your curated space
-                </UmberText>
-              </div>
+              
+              {/* Theme Toggle */}
+              <ThemeToggle className="p-2" />
             </div>
           </div>
 

@@ -235,7 +235,7 @@ function HeroSection({ onAnimationComplete }) {
               <Button 
                 variant="contemplative" 
                 size="md"
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate('/auth')}
                 className="px-6 py-3"
               >
                 <UmberText>begin your journey</UmberText>

@@ -14,11 +14,18 @@ const SuccessCard = ({
 
   useEffect(() => {
     if (autoAdvance && onAdvance) {
+      console.log('🎯 SuccessCard: Setting up auto-advance timer', { autoAdvanceDelay });
       const timer = setTimeout(() => {
+        console.log('⏰ SuccessCard: Auto-advance timer triggered, calling onAdvance');
         onAdvance();
       }, autoAdvanceDelay);
 
-      return () => clearTimeout(timer);
+      return () => {
+        console.log('🧹 SuccessCard: Cleaning up auto-advance timer');
+        clearTimeout(timer);
+      };
+    } else {
+      console.log('🚫 SuccessCard: Auto-advance not enabled', { autoAdvance, onAdvance: !!onAdvance });
     }
   }, [autoAdvance, autoAdvanceDelay, onAdvance]);
 

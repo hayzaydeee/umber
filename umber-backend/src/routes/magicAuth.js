@@ -147,6 +147,68 @@ router.get('/verify/:token', async (req, res) => {
   }
 });
 
+// Verify Magic Link Token via API (for frontend verification)
+router.post('/verify-magic-link', async (req, res) => {
+  try {
+    const { token } = req.body;
+    
+    if (!token) {
+      return res.status(400).json({ 
+        error: 'Token is required' 
+      });
+    }
+    
+    // Find user with valid magic link token
+    const user = await User.findOne({
+      magicLinkToken: token,
+      magicLinkExpires: { $gt: Date.now() }
+    });
+    
+    if (!user) {
+      console.log(`❌ Invalid or expired magic link token: ${token.substring(0, 8)}...`);
+      return res.status(400).json({ 
+        error: 'Invalid or expired magic link' 
+      });
+    }
+    
+    // Clear magic link token (single use)
+    user.magicLinkToken = undefined;
+    user.magicLinkExpires = undefined;
+    user.emailVerified = true;
+    user.lastLoginIP = req.ip;
+    user.loginAttempts = 0;
+    user.lastAttempt = undefined;
+    
+    await user.save();
+    
+    // Clear rate limiting for this user
+    await RateLimiter.recordSuccessfulLogin(user.email, req.ip);
+    
+    // Generate JWT token (7 days expiration)
+    const jwtToken = generateToken(user._id);
+    
+    console.log(`✅ Magic link verified for ${user.email} via API`);
+    
+    // Return token and user info
+    res.json({
+      message: 'Magic link verified successfully',
+      token: jwtToken,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        emailVerified: user.emailVerified
+      }
+    });
+    
+  } catch (error) {
+    console.error('Magic link API verification error:', error);
+    res.status(500).json({ 
+      error: 'Server error. Please try again.' 
+    });
+  }
+});
+
 // Development Test Route - Generate Magic Link URL (bypasses email)
 router.post('/test-magic-link', async (req, res) => {
   // Only allow in development
